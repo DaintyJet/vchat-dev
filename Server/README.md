@@ -1,3 +1,13 @@
+# Issue Tracking 
+
+The GMON SEH Record is out of reach
+
+![](image.png)
+
+This was solved by turning of all debugging mode related options and the runtime stack fame integrity check.
+
+
+
 # Vulnerable chat server (vchat)
 
 Our vulnerable chat server (vchat) is based on [vulnserver](http://thegreycorner.com/vulnserver.html). Here are the major changes

@@ -1,7 +1,7 @@
 # 
 
 
-
+## DLL
 1. Download Visual Studio
 2. Open Visual Studio 
 3. Click Create a new Project
@@ -63,6 +63,46 @@
 
         <img src="Images/I16.png">
 
+   6. Modify the Import Library Name
+
+        <img src="Images/I17.png">
+
+   7. Disable randomized base addresses
+
+        <img src="Images/I18.png">
+
+10. Now set the C++ compiler options 
+    1. Set the compiler to use SEH exceptions 
+
+        <img src="Images/I19.png">
+
+    2. Disable Security Checks 
+
+        <img src="Images/I20.png">
+
+    3. Disable Control Flow Guards 
+
+        <img src="Images/I21.png">
+
+    4. Disable SDL checks
+
+        <img src="Images/I23.png">
+
+11. Set the compiler to generate C code 
+
+    <img src="Images/I22.png">
+
+12. Build the project!
+    1.  Select the *Build* tab and click on **Build Solution** or **Build Essfun**
+
+        <img src="Images/I24.png">
+
+    2. Open the output folder you can see where this is by looking in the properties window and configuration manager
+
+        <img src="Images/I25.png">
+
+
+## EXE
 ## Refs
 
 https://learn.microsoft.com/en-us/cpp/build/creating-precompiled-header-files?view=msvc-170

@@ -33,7 +33,35 @@
 
         <img src="Images/I9.png">
 
+8. Now we should specify that this project will be compiled to x86, not x86-64 as may be the default
+   1. Click on *Properties* in the Solution Explorer, or in the *Project* dropdown as shown previously
 
+        <img src="Images/I10.png">
+
+   2. Select *Platform* and *Win32*
+
+        <img src="Images/I11.png">
+
+9. Now we can configure the *Linker*
+   1.  Open the Linker *All Options* table as shown below
+
+        <img src="Images/I12.png">
+
+   2. Set the preferred base address
+
+        <img src="Images/I13.png">
+
+   3. Disable DEP
+
+        <img src="Images/I14.png">
+
+   4. Set Incremental Linking to NO - It does not appear we did this with the GCC version
+
+        <img src="Images/I15.png">
+
+   5. Set SAFE-SEH to No
+
+        <img src="Images/I16.png">
 
 ## Refs
 

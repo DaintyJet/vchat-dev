@@ -1,5 +1,4 @@
-/*Visual Studio Defines to prevent errors for unsafe functions*/
-#define _CRT_SECURE_NO_WARNINGS
+#include "essfunc.h"
 
 
 // essfunc.dll for Vulnserver
@@ -21,7 +20,7 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
 #include <stdio.h>
 #include <string.h>
 
-#define VERSION "1.00"
+#define VERSION "2.0"
 
 void EssentialFunc1() {
 	printf("Called essential function dll version %s\n", VERSION);
@@ -39,7 +38,7 @@ void EssentialFunc2() {
 
 void EssentialFunc3() {
 	__asm {
-		jmp *%esp
+		jmp esp
 		jmp ecx
 		pop ebx
 		pop ebx
@@ -103,7 +102,7 @@ void EssentialFunc9() {
 	__asm  {
 		jmp esp
 		jmp esp
-		jmp -12(esp)
+		jmp [esp-12]
 		pop ecx
 		pop ecx
 		ret

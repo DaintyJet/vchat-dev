@@ -45,7 +45,23 @@
 
         <img src="Images/I10.png">
 
-3. Modify the Linker settings in the properties page
+    8. Disable the Debug Information 
+
+        <img src="Images/I16.png">
+
+    9. Disable Support Just My Code Debugging 
+
+        <img src="Images/I17.png">
+
+    10. Make sure we do not validate stack frames 
+
+        <img src="Images/I18.png">
+
+    11. Change the Runtime Library to Multi-Threaded DLL (No longer Debug)
+
+        <img src="Images/I19.png">
+
+4. Modify the Linker settings in the properties page
    1. Disable Randomized Base Address 
 
         <img src="Images/I11.png">
@@ -65,3 +81,5 @@
    5. Disable SAFE SEH
 
         <img src="Images/I15.png">
+
+5. Once you have generated the DLL  

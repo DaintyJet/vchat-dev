@@ -72,27 +72,43 @@
         <img src="Images/I18.png">
 
 10. Now set the C++ compiler options 
-    1. Set the compiler to use SEH exceptions 
+    1. Set the compiler to not validate stack frames 
+
+        <img src="Images/I26.png">
+
+    2. Set the compiler to use SEH exceptions 
 
         <img src="Images/I19.png">
 
-    2. Disable Security Checks 
+    3. Disable Security Checks 
 
         <img src="Images/I20.png">
 
-    3. Disable Control Flow Guards 
+    4. Disable Control Flow Guards 
 
         <img src="Images/I21.png">
 
-    4. Disable SDL checks
+    5. Disable SDL checks
 
         <img src="Images/I23.png">
 
-11. Set the compiler to generate C code 
+    6.  Set the compiler to generate C code 
 
-    <img src="Images/I22.png">
+        <img src="Images/I22.png">
 
-12. Build the project!
+    7. Set the compiler to not remove unreferenced code
+
+        <img src="Images/I27.png">
+
+    8. Disable Support Just My Code Debugging
+
+        <img src="Images/I28.png">
+
+    9. Set to use the Multi-Threaded DLL (No longer the DEBUG version) for runtime linking 
+
+        <img src="Images/I29.png">
+
+11. Build the project!
     1.  Select the *Build* tab and click on **Build Solution** or **Build Essfun**
 
         <img src="Images/I24.png">
@@ -102,7 +118,8 @@
         <img src="Images/I25.png">
 
 
-## EXE
+
+
 ## Refs
 
 https://learn.microsoft.com/en-us/cpp/build/creating-precompiled-header-files?view=msvc-170

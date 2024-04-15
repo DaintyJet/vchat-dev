@@ -2,7 +2,7 @@
 
 This is the Vulnerable Chat (VChat) server which serves multiple purposes.
 - It is a working chat server with a chat client written in Python. We use the chat server to send messages between multiple uses on the Chat client. For example, base64 encoded encrypted data can be sent over the chat server between users, in addition to plain text messages.
-- It is a server with various vulnerabilities that can be exploited on Windows 10/11. For example, we developed the <a href="https://github.com/xinwenfu/Malware-Analysis/tree/main/MetasploitNewModule">buffer overflow<a/>, <a href="https://github.com/DaintyJet/TA-GenCyber-UML-2022/tree/main/Vulnserver-Modules">DoS and DDoS</a> attack modules for Armitage and Metasploit. A few clicks and a person can hack into a victim Windows machine running VChat.
+- It is a server with various vulnerabilities that can be exploited on Windows 10/11. For example, we developed the <a href="https://github.com/xinwenfu/Malware-Analysis/tree/main/MetasploitNewModule">buffer overflow</a>, <a href="https://github.com/DaintyJet/TA-GenCyber-UML-2022/tree/main/Vulnserver-Modules">DoS and DDoS</a> attack modules for Armitage and Metasploit. A few clicks and a person can hack into a victim Windows machine running VChat.
 
 ## Table of Content
 

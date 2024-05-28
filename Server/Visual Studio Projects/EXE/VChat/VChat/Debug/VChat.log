@@ -1,5 +1,4 @@
 ﻿  vchat.c
 C:\Local-Git\vchat-dev\Server\Visual Studio Projects\EXE\VChat\VChat\vchat.h(97,6): warning C4273: 'EssentialFunc1': inconsistent dll linkage
-C:\Local-Git\vchat-dev\Server\Visual Studio Projects\EXE\VChat\VChat\vchat.c(301,55): warning C4996: 'inet_ntoa': Use inet_ntop() or InetNtop() instead or define _WINSOCK_DEPRECATED_NO_WARNINGS to disable deprecated API warnings
-C:\Local-Git\vchat-dev\Server\Visual Studio Projects\EXE\VChat\VChat\vchat.c(624,1): warning C4715: 'ConnectionHandler': not all control paths return a value
+C:\Local-Git\vchat-dev\Server\Visual Studio Projects\EXE\VChat\VChat\vchat.c(326,55): warning C4996: 'inet_ntoa': Use inet_ntop() or InetNtop() instead or define _WINSOCK_DEPRECATED_NO_WARNINGS to disable deprecated API warnings
 LINK : fatal error LNK1104: cannot open file 'libessfunc.a'

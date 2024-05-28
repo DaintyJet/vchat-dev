@@ -32,15 +32,18 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
 void queue_add(client_t* cl) {
 	DWORD dwWaitResult;
 
+	/* Enter Critical Section */
 	dwWaitResult = WaitForSingleObject(
 		ghMutex, 	// handle to mutex
 		INFINITE);	// no time-out interval
 
+	/* Result can be Successful Wait or Aborted */
 	switch (dwWaitResult) {
 	case WAIT_OBJECT_0:
 #ifdef DEBUG
 		printf("queue_add: Obtained ghMutex\n");
 #endif
+		/* Add a client to the queue if there is space*/
 		cli_count++;
 		printf("queue_add: A new client just came. %d clients now\n", cli_count);
 		for (int i = 0; i < MAX_CLIENTS; ++i) {
@@ -50,47 +53,48 @@ void queue_add(client_t* cl) {
 			}
 		}
 
-		// Release ownership of the mutex object
+		/* Release ownership of the mutex object */
 		if (!ReleaseMutex(ghMutex)) {
-			printf("queue_add: ReleaseMutex wrong\n");    // Handle error.
+			printf("queue_add: ReleaseMutex error\n");    // Handle error.
 		}
-		else {
 #ifdef DEBUG
-			printf("queue_add: ReleaseMutex right\n");
-#endif
+		else {
+			printf("queue_add: ReleaseMutex succeded\n");
 		}
-
+#endif
 		break;
-
 	case WAIT_ABANDONED:
-		// The thread got ownership of an abandoned mutex
-		// An indeterminate state
+		/*
+		The thread got ownership of an abandoned mutex
+		 An indeterminate state
+		*/
 		printf("queue_add: WAIT_ABANDONED\n");
 		return;
 	}
 #ifdef DEBUG
-	printf("Done with queue_add\n");
+	printf("queue_add: Finsihed\n");
 #endif
 }
 
-//////////////////////////////////////////////////
-// A client leaves
-// Delete the client from queue
-//////////////////////////////////////////////////
+/************************************************
+A client leaves delete the client from queue
+************************************************/
 void queue_delete(client_t* cl) {
 	DWORD dwWaitResult;
 
+	/* Enter Critical Section */
 	dwWaitResult = WaitForSingleObject(
 		ghMutex, 	// handle to mutex
 		INFINITE);	// no time-out interval
 
+	/* Result can be Successful Wait or Aborted */
 	switch (dwWaitResult)
 	{
-		// The thread got ownership of the mutex
 	case WAIT_OBJECT_0:
 #ifdef DEBUG
 		printf("queue_delete: Obtained ghMutex\n");
 #endif
+		/* Remove client from queue */
 		cli_count--;
 		printf("queue_delete: A client just left. %d clients now\n", cli_count);
 		for (int i = 0; i < MAX_CLIENTS; ++i) {
@@ -103,49 +107,54 @@ void queue_delete(client_t* cl) {
 		}
 		free(cl);
 
-		// Release ownership of the mutex object
+		/* Release ownership of the mutex object */
 		if (!ReleaseMutex(ghMutex)) {
-			printf("queue_delete: ReleaseMutex wrong\n");    // Handle error.
+			printf("queue_delete: ReleaseMutex error\n");    // Handle error.
 		}
-		else {
 #ifdef DEBUG
-			printf("queue_delete: ReleaseMutex right\n");
-#endif
+		else {
+			printf("queue_delete: ReleaseMutex succeded\n");
 		}
-
+#endif
 		break;
-
 	case WAIT_ABANDONED:
-		// The thread got ownership of an abandoned mutex
-		// An indeterminate state
+		/* 
+		The thread got ownership of an abandoned mutex
+		An indeterminate state
+		*/
 		printf("queue_delete: WAIT_ABANDONED\n");
 		return;
 	}
 #ifdef DEBUG
-	printf("Done with queue_delete\n");
+	printf("queue_delete: Finished\n");
 #endif
 }
 
-
-// Broadcast message to current clients
+/************************************************
+   Broadcast message to current clients
+************************************************/
 int broadcast(char* KnocBuf, client_t* pCli) {
 	DWORD dwWaitResult;
 	int Result, SendResult = -1;
 
-	// We need mutex since we want to make sure all the clients are alive
+	/* 
+	Enter Critical section 
+	We need mutex since we want to make sure all the clients are alive
+	*/
 	dwWaitResult = WaitForSingleObject(
 		ghMutex, 	// handle to mutex
 		INFINITE);	// no time-out interval
 
+	/* Result can be Successful Wait or Aborted */
 	switch (dwWaitResult) {
 	case WAIT_OBJECT_0:
 #ifdef DEBUG
-		printf("Obtained ghMutex\n");
+		printf("broadcast: Obtained ghMutex\n");
 #endif
 
 		Result = strlen(KnocBuf);
 
-		// Broadcast the message to all other clients
+		/* Broadcast the message to all other clients */
 		for (int i = 0; i < MAX_CLIENTS; ++i) {
 			if (clients[i]) {
 				if (clients[i]->uid != pCli->uid) {
@@ -154,36 +163,36 @@ int broadcast(char* KnocBuf, client_t* pCli) {
 			}
 		}
 
-		// Release ownership of the mutex object
+		/* Release ownership of the mutex object */
 		if (!ReleaseMutex(ghMutex)) {
-			printf("ReleaseMutex wrong\n");    // Handle error.
+			printf("broadcast: ReleaseMutex error\n");    // Handle error.
 		}
-		else {
 #ifdef DEBUG
-			printf("ReleaseMutex right\n");
-#endif
+		else {
+			printf("broadcast: ReleaseMutex succeded\n");
 		}
-
+#endif
 		break;
-
 	case WAIT_ABANDONED:
-		// The thread got ownership of an abandoned mutex
-		// An indeterminate state
-		printf("WAIT_ABANDONED\n");
+		/*
+		The thread got ownership of an abandoned mutex
+		An indeterminate state
+		*/
+		printf("broadcast: WAIT_ABANDONED\n");
 		break;
 	}
 
 #ifdef DEBUG
-	printf("Done with broadcast\n");
+	printf("broadcast: Finished\n");
 #endif
 
 	return SendResult;
 }
 
-/////////////////////////////////////////////////
-// Check if there is vacancy in the client list
-// We intentionally allow a limited number of clients
-/////////////////////////////////////////////////
+/************************************************
+Check if there is vacancy in the client list
+We intentionally allow a limited number of clients
+************************************************/
 bool checkVacancy() {
 	DWORD dwWaitResult;
 	bool hasVacancy = FALSE;
@@ -228,11 +237,12 @@ bool checkVacancy() {
 	return hasVacancy;
 }
 
-///////////////////////////////////////////////////
-// Accept user connections
-// Start a thread for each connection
-///////////////////////////////////////////////////
+/************************************************
+Accept user connections
+Start a thread for each connection
+************************************************/
 DWORD WINAPI acceptHandler(LPVOID ptr) {
+	
 	char* PortNumber = (char*)ptr;
 	WSADATA wsaData;
 	SOCKET ListenSocket = INVALID_SOCKET, ClientSocket = INVALID_SOCKET;
@@ -241,18 +251,24 @@ DWORD WINAPI acceptHandler(LPVOID ptr) {
 	struct sockaddr_in ClientAddress;
 	int ClientAddressL = sizeof(ClientAddress);
 
+	/* Initiate Winsock DLL*/
 	Result = WSAStartup(MAKEWORD(2, 2), &wsaData);
 	if (Result != 0) {
 		printf("WSAStartup failed with error: %d\n", Result);
 		return 1;
 	}
 
+	/* Zero out hints addrinfor struct */
 	ZeroMemory(&hints, sizeof(hints));
-	hints.ai_family = AF_INET;
-	hints.ai_socktype = SOCK_STREAM;
-	hints.ai_protocol = IPPROTO_TCP;
-	hints.ai_flags = AI_PASSIVE;
+	hints.ai_family = AF_INET;          // IPv4 
+	hints.ai_socktype = SOCK_STREAM;    // TCP (Specify reliable 2-way)
+	hints.ai_protocol = IPPROTO_TCP;    // TCP (default when Sockstream and AF_INET used)
+	hints.ai_flags = AI_PASSIVE;        // Specify Socket will be used in a call to bind
 
+	/* 
+	Get socket information based on the desired port number and 
+	the values set in hint (is TCP port XXX avalable)
+	*/
 	Result = getaddrinfo(NULL, PortNumber, &hints, &result);
 	if (Result != 0) {
 		printf("Getaddrinfo failed with error: %d\n", Result);
@@ -260,6 +276,7 @@ DWORD WINAPI acceptHandler(LPVOID ptr) {
 		return 1;
 	}
 
+	/* Create Socket based on result info */
 	ListenSocket = socket(result->ai_family, result->ai_socktype, result->ai_protocol);
 	if (ListenSocket == INVALID_SOCKET) {
 		printf("Socket failed with error: %ld\n", WSAGetLastError());
@@ -268,6 +285,7 @@ DWORD WINAPI acceptHandler(LPVOID ptr) {
 		return 1;
 	}
 
+	/* Bind sock to desired ListenSocket port */
 	Result = bind(ListenSocket, result->ai_addr, (int)result->ai_addrlen);
 	if (Result == SOCKET_ERROR) {
 		printf("Bind failed with error: %d\n", WSAGetLastError());
@@ -276,8 +294,13 @@ DWORD WINAPI acceptHandler(LPVOID ptr) {
 		return 1;
 	}
 
+	/*
+	We no longer need the addr info loaded into results
+	getaddrinfo will dynamically allocate objects
+	*/
 	freeaddrinfo(result);
 
+	/* Listen For Connections */
 	Result = listen(ListenSocket, SOMAXCONN);
 	if (Result == SOCKET_ERROR) {
 		printf("Listen failed with error: %d\n", WSAGetLastError());
@@ -286,9 +309,11 @@ DWORD WINAPI acceptHandler(LPVOID ptr) {
 		return 1;
 	}
 
+	/* Infinate loop to accept and dispatch client connections */
 	while (1) {
 		printf("Waiting for client connections...\n");
 
+		/* Accept connections from the listen socket allocated earlier */
 		ClientSocket = accept(ListenSocket, (SOCKADDR*)&ClientAddress, &ClientAddressL);
 		if (ClientSocket == INVALID_SOCKET) {
 			if (!end_flag)
@@ -319,36 +344,41 @@ DWORD WINAPI acceptHandler(LPVOID ptr) {
 #ifdef DEBUG
 		printf("To CreateThread\n");
 #endif
+		/*
+		Dispatch Thread to Connection Handler
+		*/
 		CreateThread(0, 0, ConnectionHandler, (LPVOID)cli, 0, 0);
-
-		//		Sleep(1000);
-
 	}
 }
 
-////////////////////////////////////////////
-// Accept CTRL+C to exit the server
-////////////////////////////////////////////
+/************************************************
+   Accept CTRL+C to exit the server, this is
+   similar to a Signal Handler
+************************************************/
 BOOL WINAPI controlHandler(DWORD type) {
 	if (type == CTRL_C_EVENT) {
 		printf("CTRL+C Received. Terminating the server...\n");
 
+		/* Set flag so child threads eventually exit */
 		end_flag = 1;	// CTRL+C is received
 
-		// Close all sockets that are communciating with clients
+		/* Close all sockets that are communciating with clients */
 		for (int i = 0; i < MAX_CLIENTS; ++i) {
 			if (clients[i]) {
 				closesocket(clients[i]->connfd);
 			}
 		}
 
+		/* Cleanup Listen Socket and Windows Socket Library intializations */
 		closesocket(ListenSocket);	// Close the listening socket for accepting incoming connections
-		WSACleanup();	// Clean up socket
-		// Restore previous console mode
+		WSACleanup();	            // Clean up socket
+		
+		
+		/* Restore previous console mode */
 		SetConsoleMode(hInput, prev_mode);	// Restore console mode to the previous mode
 
+		/* Cleanup Mutex */
 		CloseHandle(ghMutex);	// Close mutex
-
 		return TRUE;
 	}
 	return FALSE;
@@ -382,11 +412,14 @@ void Function5(char* Input) {
 	return;
 }
 
-//////////////////////////////////////////////////////////////
-// One connection for one client
-// The chat server uses the KNOCK command
-// Client messages are forwarded to all other clients
-//////////////////////////////////////////////////////////////
+/************************************************
+   One thread of ConnectionHandler for each client that 
+   connects to the VChat server 
+
+   The chat server uses the KNOCK command which specifies
+   that client messages are to be forwarded to all other 
+   clients
+************************************************/
 DWORD WINAPI ConnectionHandler(LPVOID cli) {
 	int RecvBufLen = DEFAULT_BUFLEN;
 	char* RecvBuf = malloc(DEFAULT_BUFLEN);
@@ -395,26 +428,33 @@ DWORD WINAPI ConnectionHandler(LPVOID cli) {
 	int Result, SendResult, i, k;
 	client_t* pCli = (client_t*)cli;
 
+	/* Add client to connection list */
 	queue_add(pCli);
 
+	/* Initalize Buffers */
 	memset(BigEmpty, 0, 1000);
 	memset(RecvBuf, 0, DEFAULT_BUFLEN);
 	SOCKET Client = pCli->connfd;
-	//	SOCKET Client = CSocket; 
 
+	/* Prompt user on connection */
 	SendResult = send(Client, "Welcome to Vulnerable Server! Enter HELP for help.\n", 51, 0);
 	sprintf(BigEmpty, "You are User %s.\n", pCli->name);
 	SendResult = send(Client, BigEmpty, strlen(BigEmpty) + 1, 0);
 	memset(BigEmpty, 0, 1000);
 
+	/* Catch error if one occurs */
 	if (SendResult == SOCKET_ERROR) {
 		printf("Send failed with error: %d\n", WSAGetLastError());
 		closesocket(Client);
 		return 1;
 	}
 
+	/* While the client is connected, handle any messahes recieved */
 	while (cli) {
+		/* Recieve and store message */
 		Result = recv(Client, RecvBuf, RecvBufLen, 0);
+		
+		/* If there are contents parse them */
 		if (Result > 0) {
 			if (strncmp(RecvBuf, "HELP ", 5) == 0) {
 				const char NotImplemented[47] = "Command specific help has not been implemented\n";
@@ -462,14 +502,13 @@ DWORD WINAPI ConnectionHandler(LPVOID cli) {
 				SendResult = send(Client, "TRUN COMPLETE\n", 14, 0);
 			}
 			else if (strncmp(RecvBuf, "KNOCK ", 6) == 0) {
-				////////////////////////////////////////////////////////////////
-				////////////////////////////////////////////////////////////////
-				////////////////////////////////////////////////////////////////
-				// Chat server is implemented here /////////////////////////////
-				////////////////////////////////////////////////////////////////
-				////////////////////////////////////////////////////////////////
-				////////////////////////////////////////////////////////////////
+				/************************************************
+				  Chat server handling is implemented here
+
+				  May perform "MITM" if enabled
+				************************************************/
 				printf("Received a message\n");
+
 				char* KnocBuf = malloc(3000);
 				memset(KnocBuf, 0, 3000);
 				for (i = 6; i < RecvBufLen; i++) {
@@ -494,25 +533,49 @@ DWORD WINAPI ConnectionHandler(LPVOID cli) {
 				broadcast(KnocBuf, pCli);
 
 				free(KnocBuf);
-				////////////////////////////////////////////////////////////////
-				////////////////////////////////////////////////////////////////
-				////////////////////////////////////////////////////////////////
+				/************************************************
+				  End of KNOCK Command
+				************************************************/
 
 			}
 			else if (strncmp(RecvBuf, "MITM ", 5) == 0) {
-				// Admin to set MITM /////////////////////////////////////////////
+				/************************************************
+				Admin to set MITM on server
+				************************************************/
 				if ((char)RecvBuf[5] == '1') {
 					MITM = true;
 				} if ((char)RecvBuf[5] == '0') {
 					MITM = false;
 				}
+				/************************************************
+				  End of MITM Command
+				************************************************/
 			}
 			else if (strncmp(RecvBuf, "NAME ", 5) == 0) {
-				// Change name /////////////////////////////////////////////
+				/************************************************ 
+				  Change name function 
+				************************************************/
 				memcpy(pCli->name, RecvBuf + 5, Result - 5);
 				// printf("Name changed to %s, length=%d\n", pCli->name, strlen(pCli->name));
 				pCli->name[Result - 5 - 2] = '\0';
 				// printf("Name changed to %s, length=%d\n", pCli->name, strlen(pCli->name));
+				
+				/************************************************
+				  End Change Name Function
+				************************************************/
+			}
+			else if (strncmp(RecvBuf, "FUNCC", 5) == 0) {
+				/************************************************
+				  Begin CFG Exploit Function
+				************************************************/
+				char* FuncBuff = malloc(2048);
+				memset(FuncBuff, 0, 2048);
+				strncpy(FuncBuff, RecvBuf, 2048);
+				memset(RecvBuf, 0, DEFAULT_BUFLEN);
+				Function5(FuncBuff);
+				/************************************************
+				  End CFG Exploit Function
+				************************************************/
 			}
 			else if (strncmp(RecvBuf, "GMON ", 5) == 0) {
 				char GmonStatus[13] = "GMON STARTED\n";
@@ -577,7 +640,7 @@ DWORD WINAPI ConnectionHandler(LPVOID cli) {
 					i++;
 				}
 				for (i = 5; i < DEFAULT_BUFLEN; i++) {
-					if ((char)LterBuf[i] == '.') {
+					if (LterBuf != NULL && (char)LterBuf[i] == '.') {
 						Function3(LterBuf);
 						break;
 					}
@@ -603,32 +666,40 @@ DWORD WINAPI ConnectionHandler(LPVOID cli) {
 			}
 		}
 		else if (Result == 0) {
-			// If the connection has been gracefully closed, the return value is zero.
+			/* If the connection has been gracefully closed, the return value is zero. */
 			printf("Connection closing...\n");
 			break;
 		}
 		else {
-			// Otherwise, a value of SOCKET_ERROR is returned, 
-			// and a specific error code can be retrieved by calling WSAGetLastError.
+			/* 
+			Otherwise, a value of SOCKET_ERROR is returned,
+			and a specific error code can be retrieved by calling WSAGetLastError.
+			*/
+
 			if (!end_flag)
 				printf("Recv failed with error: %d\n", WSAGetLastError());
 			break;
 		}
 
 	}
-
 	// The connection is closing for whatever reason
-	// Let's clean up
+	
+	/* Clean up Client Object */
 	queue_delete(pCli); // Only deleted from the queue; Socket is not closed
 
+	/* Clean up socket and buffers */
 	closesocket(Client);
 	free(RecvBuf);
 	free(GdogBuf);
+	return 1;
 }
 
+/* Main Function */
 int main(int argc, char* argv[]) {
 	char PortNumber[6];	// Server port number
 	const char Usage[128] = "Wrong arguments!\nUsage: %s [port_number]\n\nIf no port number is provided, the default port of %s will be used.\n";
+	
+	/* Configure based on CLI arguments */
 	if (argc > 2) {
 		// Too many command line arguments
 		printf(Usage, argv[0], DEFAULT_PORT);
@@ -645,37 +716,44 @@ int main(int argc, char* argv[]) {
 		}
 	}
 	else {
+		/* Use default port if no arguments are provided */
 		strncpy(PortNumber, DEFAULT_PORT, 6);
 	}
 
-	///////////////////////////////////////////////////////
-	//// Disable quick-edit mode which may stalk the server if user selects console text
-	///////////////////////////////////////////////////////
+	/************************************************
+	   Disable quick-edit mode which may stalk (cause issues
+	   with) the server if user selects console text
+	/************************************************/
 	hInput = GetStdHandle(STD_INPUT_HANDLE);
 	GetConsoleMode(hInput, &prev_mode);
 	SetConsoleMode(hInput, ENABLE_EXTENDED_FLAGS | (prev_mode & ~ENABLE_QUICK_EDIT_MODE));
-	///////////////////////////////////////////////////////
-	///////////////////////////////////////////////////////
+	/************************************************
+	   End Quick edit modifications
+	************************************************/
 
+
+	/* Print info and ensure external dll is loaded */
 	printf("Starting vulnserver version %s\n", VERSION);
 	EssentialFunc1(); // Call function from external dll
 	printf("\nThis is vulnerable software! Do not run at production systems!\nDo NOT try Windows console CMD's Mark and Copy! It stalks server!\n\nCTRL+C to terminate server!\n\n");
 
-	///////////////////////////////////////////////////////
-	//// Accept CTRL+C from the console to exit the server
-	///////////////////////////////////////////////////////
+	/************************************************
+	   Accept CTRL+C from the console to exit the server
+	   setup handler.
+	/************************************************/
 	if (!SetConsoleCtrlHandler(controlHandler, TRUE)) {
 		fprintf(stderr, "Failed SetConsoleCtrlHandler");
 		return -1;
 	}
-	///////////////////////////////////////////////////////
-	///////////////////////////////////////////////////////
+	/************************************************
+	   End CTRL+C 
+	************************************************/
 
-	///////////////////////////////////////////////////////
-	//// We use mutex to maintain the integrity of a connect list
-	//// A received message will be bradcast to other clients than the sender
-	//// mutex makes sure the client is still alove with its socket
-	///////////////////////////////////////////////////////
+	/************************************************
+	   We use mutex to maintain the integrity of a connect list
+	   A received message will be bradcast to other clients than the sender
+	   mutex makes sure the client is still alove with its socket
+	************************************************/
 	ghMutex = CreateMutex(
 		NULL,              // default security attributes
 		FALSE,             // initially not owned
@@ -686,20 +764,20 @@ int main(int argc, char* argv[]) {
 		return 1;
 	}
 
-	////////////////////////////////////////////////////////
-	//// We use a thread to handle incoming connections so that we can terminate the server with CTRL+C
-	//// Otherwise, accept() is blocking and CTRL+C cannot be processed
-	////////////////////////////////////////////////////////
+	/************************************************
+	   We use a thread to handle incoming connections so that we can terminate the server with CTRL+C
+	   Otherwise, accept() is blocking and CTRL+C cannot be processed
+	************************************************/
 	HANDLE hAccept = CreateThread(0, 0, acceptHandler, PortNumber, 0, 0);
 
-	////////////////////////////////////////////////////////
-	//// main thread is an infinite look 
-	//// Sleep ensures we do not use much CPU
-	////////////////////////////////////////////////////////
+	/************************************************
+	   main thread is an infinite look 
+	   Sleep ensures we do not use much CPU
+	   (This is a busy wait)
+	************************************************/
 	while (!end_flag) { Sleep(100); }
 
 	Sleep(1000); // last chance to clean up threads
 
 	return 0;
 }
-

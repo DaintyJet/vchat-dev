@@ -7,7 +7,7 @@ VulnServer - a deliberately vulnerable threaded TCP server application
 This is vulnerable software, don't run it on an important system!  The author assumes no responsibility if
 you run this software and your system gets compromised, because this software was designed to be exploited!
 
-Visit my blog for more details: http://www.thegreycorner.com
+Visit the original author's blog for more details: http://www.thegreycorner.com
 */
 
 
@@ -24,55 +24,11 @@ Redistribution and use in source and binary forms, with or without modification,
 THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#include "essfunc.h"
+#include "vchat.h"
 
-#include <winsock2.h>
-#include <windows.h>
-#include <ws2tcpip.h>
-#include <stdlib.h>
-#include <stdio.h>
-#include <stdbool.h>
-
-#define VERSION "2.01"
-#define DEFAULT_BUFLEN 4096
-#define DEFAULT_PORT "9999"
-#define MAX_CLIENTS 100
-
-void Function1(char* Input);
-void Function2(char* Input);
-void Function3(char* Input);
-void Function4(char* Input);
-void EssentialFunc1();
-
-/* Client structure */
-typedef struct {
-	struct sockaddr_in addr; /* Client remote address */
-	SOCKET connfd;              /* Connection file descriptor */
-	int uid;                 /* Client unique identifier */
-	char name[32];           /* Client name */
-} client_t;
-
-static client_t* clients[MAX_CLIENTS];
-int uid = 10;
-unsigned int cli_count = 0;
-bool MITM = false;
-HANDLE ghMutex;
-SOCKET ListenSocket = INVALID_SOCKET;
-static int end_flag = 0;	// Flag to indicate if CTRL+C is received
-DWORD prev_mode;	// Console mode
-HANDLE hInput;
-
-DWORD WINAPI ConnectionHandler(LPVOID CSocket);
-DWORD WINAPI acceptHandler(LPVOID ptr);
-void queue_delete(client_t* cl);
-void queue_delete(client_t* cl);
-int broadcast(char* KnocBuf, client_t* pCli);
-bool checkVacancy();
-BOOL WINAPI controlHandler(DWORD type);
-
-/////////////////////////////////////////////////////////
-// Add an incoming client to queue so that we can send messages to it
-/////////////////////////////////////////////////////////
+/********************************************************
+    Add an incoming client to queue so that we can send messages to it
+/********************************************************/
 void queue_add(client_t* cl) {
 	DWORD dwWaitResult;
 
@@ -417,6 +373,13 @@ void Function3(char* Input) {
 void Function4(char* Input) {
 	char Buffer2S[1000];
 	strcpy(Buffer2S, Input);
+}
+void Function5(char* Input) {
+	funcionpointer someFunc = good_function;
+	char Buffer2S[1000];
+	strcpy(Buffer2S, Input);
+	someFunc();
+	return;
 }
 
 //////////////////////////////////////////////////////////////

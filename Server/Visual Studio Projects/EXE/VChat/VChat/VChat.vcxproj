@@ -95,7 +95,7 @@
       <RandomizedBaseAddress>false</RandomizedBaseAddress>
       <DataExecutionPrevention>false</DataExecutionPrevention>
       <ImageHasSafeExceptionHandlers>false</ImageHasSafeExceptionHandlers>
-      <AdditionalLibraryDirectories>D:\Fu-Work\VChat\vchat-dev\Server\Visual Studio Projects\DLL\Essfun\Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>D:\Fu-Work\VChat\vchat-dev\Server\Visual Studio Projects\DLL\Essfun\Debug;C:\Local-Git\vchat-dev\Server\Visual Studio Projects\DLL\Essfun\Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>libessfunc.a;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>

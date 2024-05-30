@@ -107,6 +107,6 @@ void good_function(char* Input, SOCKET client) {
 
 void bad_function(char* Input, SOCKET client) {
 	/* Send some data so the client knows we were successful */
-	send(client, "BAD FUNCTION CALLED\n", 21, 0);
+	send(client, "BAD FUNCTION CALLED\n", 20, 0);
 	return;
 }

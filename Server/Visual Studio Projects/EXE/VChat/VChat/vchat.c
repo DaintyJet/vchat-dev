@@ -41,11 +41,13 @@ void queue_add(client_t* cl) {
 	switch (dwWaitResult) {
 	case WAIT_OBJECT_0:
 #ifdef DEBUG
-		printf("queue_add: Obtained ghMutex\n");
+		printf("queue_add: Obtained ghMutex\r\n");
+		fflush(stdout);
 #endif
 		/* Add a client to the queue if there is space*/
 		cli_count++;
-		printf("queue_add: A new client just came. %d clients now\n", cli_count);
+		printf("queue_add: A new client just came. %d clients now\r\n", cli_count);
+		fflush(stdout);
 		for (int i = 0; i < MAX_CLIENTS; ++i) {
 			if (!clients[i]) {
 				clients[i] = cl;
@@ -55,11 +57,13 @@ void queue_add(client_t* cl) {
 
 		/* Release ownership of the mutex object */
 		if (!ReleaseMutex(ghMutex)) {
-			printf("queue_add: ReleaseMutex error\n");    // Handle error.
+			printf("queue_add: ReleaseMutex error\r\n");    // Handle error.
+			fflush(stdout);
 		}
 #ifdef DEBUG
 		else {
-			printf("queue_add: ReleaseMutex succeded\n");
+			printf("queue_add: ReleaseMutex succeded\r\n");
+			fflush(stdout);
 		}
 #endif
 		break;
@@ -68,11 +72,13 @@ void queue_add(client_t* cl) {
 		The thread got ownership of an abandoned mutex
 		 An indeterminate state
 		*/
-		printf("queue_add: WAIT_ABANDONED\n");
+		printf("queue_add: WAIT_ABANDONED\r\n");
+		fflush(stdout);
 		return;
 	}
 #ifdef DEBUG
-	printf("queue_add: Finsihed\n");
+	printf("queue_add: Finsihed\r\n");
+	fflush(stdout);
 #endif
 }
 
@@ -92,11 +98,13 @@ void queue_delete(client_t* cl) {
 	{
 	case WAIT_OBJECT_0:
 #ifdef DEBUG
-		printf("queue_delete: Obtained ghMutex\n");
+		printf("queue_delete: Obtained ghMutex\r\n");
+		fflush(stdout);
 #endif
 		/* Remove client from queue */
 		cli_count--;
-		printf("queue_delete: A client just left. %d clients now\n", cli_count);
+		printf("queue_delete: A client just left. %d clients now\r\n", cli_count);
+		fflush(stdout);
 		for (int i = 0; i < MAX_CLIENTS; ++i) {
 			if (clients[i]) {
 				if (clients[i]->uid == cl->uid) {
@@ -109,11 +117,13 @@ void queue_delete(client_t* cl) {
 
 		/* Release ownership of the mutex object */
 		if (!ReleaseMutex(ghMutex)) {
-			printf("queue_delete: ReleaseMutex error\n");    // Handle error.
+			printf("queue_delete: ReleaseMutex error\r\n");    // Handle error.
+			fflush(stdout);
 		}
 #ifdef DEBUG
 		else {
-			printf("queue_delete: ReleaseMutex succeded\n");
+			printf("queue_delete: ReleaseMutex succeded\r\n");
+			fflush(stdout);
 		}
 #endif
 		break;
@@ -122,11 +132,13 @@ void queue_delete(client_t* cl) {
 		The thread got ownership of an abandoned mutex
 		An indeterminate state
 		*/
-		printf("queue_delete: WAIT_ABANDONED\n");
+		printf("queue_delete: WAIT_ABANDONED\r\n");
+		fflush(stdout);
 		return;
 	}
 #ifdef DEBUG
-	printf("queue_delete: Finished\n");
+	printf("queue_delete: Finished\r\n");
+	fflush(stdout);
 #endif
 }
 
@@ -149,7 +161,8 @@ int broadcast(char* KnocBuf, client_t* pCli) {
 	switch (dwWaitResult) {
 	case WAIT_OBJECT_0:
 #ifdef DEBUG
-		printf("broadcast: Obtained ghMutex\n");
+		printf("broadcast: Obtained ghMutex\r\n");
+		fflush(stdout);
 #endif
 
 		Result = strlen(KnocBuf);
@@ -165,11 +178,13 @@ int broadcast(char* KnocBuf, client_t* pCli) {
 
 		/* Release ownership of the mutex object */
 		if (!ReleaseMutex(ghMutex)) {
-			printf("broadcast: ReleaseMutex error\n");    // Handle error.
+			printf("broadcast: ReleaseMutex error\r\n");    // Handle error.
+			fflush(stdout);
 		}
 #ifdef DEBUG
 		else {
-			printf("broadcast: ReleaseMutex succeded\n");
+			printf("broadcast: ReleaseMutex succeded\r\n");
+			fflush(stdout);
 		}
 #endif
 		break;
@@ -178,12 +193,14 @@ int broadcast(char* KnocBuf, client_t* pCli) {
 		The thread got ownership of an abandoned mutex
 		An indeterminate state
 		*/
-		printf("broadcast: WAIT_ABANDONED\n");
+		printf("broadcast: WAIT_ABANDONED\r\n");
+		fflush(stdout);
 		break;
 	}
 
 #ifdef DEBUG
-	printf("broadcast: Finished\n");
+	printf("broadcast: Finished\r\n");
+	fflush(stdout);
 #endif
 
 	return SendResult;
@@ -205,7 +222,8 @@ bool checkVacancy() {
 	switch (dwWaitResult) {
 	case WAIT_OBJECT_0:
 #ifdef DEBUG
-		printf("Obtained ghMutex\n");
+		printf("CheckVacancy: Obtained ghMutex\r\n");
+		fflush(stdout);
 #endif
 		if (cli_count < MAX_CLIENTS)
 			hasVacancy = TRUE;
@@ -214,11 +232,13 @@ bool checkVacancy() {
 
 		// Release ownership of the mutex object
 		if (!ReleaseMutex(ghMutex)) {
-			printf("ReleaseMutex wrong\n");    // Handle error.
+			printf("CheckVacancy: ReleaseMutex error\r\n");    // Handle error.
+			fflush(stdout);
 		}
 		else {
 #ifdef DEBUG
-			printf("ReleaseMutex right\n");
+			printf("CheckVacnacy: ReleaseMutex success\r\n");
+			fflush(stdout);
 #endif
 		}
 
@@ -227,11 +247,13 @@ bool checkVacancy() {
 		// The thread got ownership of an abandoned mutex
 		// An indeterminate state
 	case WAIT_ABANDONED:
-		printf("WAIT_ABANDONED\n");
+		printf("CheckVacancy: WAIT_ABANDONED\r\n");
+		fflush(stdout);
 	}
 
 #ifdef DEBUG
-	printf("Done with checkVacancy\n");
+	printf("CheckVacancy: Finished\r\n");
+	fflush(stdout);
 #endif
 
 	return hasVacancy;
@@ -254,7 +276,8 @@ DWORD WINAPI acceptHandler(LPVOID ptr) {
 	/* Initiate Winsock DLL*/
 	Result = WSAStartup(MAKEWORD(2, 2), &wsaData);
 	if (Result != 0) {
-		printf("WSAStartup failed with error: %d\n", Result);
+		printf("WSAStartup failed with error: %d\r\n", Result);
+		fflush(stdout);
 		return 1;
 	}
 
@@ -271,7 +294,8 @@ DWORD WINAPI acceptHandler(LPVOID ptr) {
 	*/
 	Result = getaddrinfo(NULL, PortNumber, &hints, &result);
 	if (Result != 0) {
-		printf("Getaddrinfo failed with error: %d\n", Result);
+		printf("Getaddrinfo failed with error: %d\r\n", Result);
+		fflush(stdout);
 		WSACleanup();
 		return 1;
 	}
@@ -279,7 +303,8 @@ DWORD WINAPI acceptHandler(LPVOID ptr) {
 	/* Create Socket based on result info */
 	ListenSocket = socket(result->ai_family, result->ai_socktype, result->ai_protocol);
 	if (ListenSocket == INVALID_SOCKET) {
-		printf("Socket failed with error: %ld\n", WSAGetLastError());
+		printf("Socket failed with error: %ld\r\n", WSAGetLastError());
+		fflush(stdout);
 		freeaddrinfo(result);
 		WSACleanup();
 		return 1;
@@ -288,7 +313,8 @@ DWORD WINAPI acceptHandler(LPVOID ptr) {
 	/* Bind sock to desired ListenSocket port */
 	Result = bind(ListenSocket, result->ai_addr, (int)result->ai_addrlen);
 	if (Result == SOCKET_ERROR) {
-		printf("Bind failed with error: %d\n", WSAGetLastError());
+		printf("Bind failed with error: %d\r\n", WSAGetLastError());
+		fflush(stdout);
 		closesocket(ListenSocket);
 		WSACleanup();
 		return 1;
@@ -303,7 +329,8 @@ DWORD WINAPI acceptHandler(LPVOID ptr) {
 	/* Listen For Connections */
 	Result = listen(ListenSocket, SOMAXCONN);
 	if (Result == SOCKET_ERROR) {
-		printf("Listen failed with error: %d\n", WSAGetLastError());
+		printf("Listen failed with error: %d\r\n", WSAGetLastError());
+		fflush(stdout);
 		closesocket(ListenSocket);
 		WSACleanup();
 		return 1;
@@ -311,25 +338,30 @@ DWORD WINAPI acceptHandler(LPVOID ptr) {
 
 	/* Infinate loop to accept and dispatch client connections */
 	while (1) {
-		printf("Waiting for client connections...\n");
-
+		printf("Waiting for client connections...\r\n");
+		fflush(stdout);
 		/* Accept connections from the listen socket allocated earlier */
 		ClientSocket = accept(ListenSocket, (SOCKADDR*)&ClientAddress, &ClientAddressL);
 		if (ClientSocket == INVALID_SOCKET) {
-			if (!end_flag)
-				printf("Accept failed with error: %d\n", WSAGetLastError());
+			if (!end_flag) {
+				printf("Accept failed with error: %d\r\n", WSAGetLastError());
+				fflush(stdout);
+			}
 			closesocket(ListenSocket);
 			WSACleanup();
 			return 1;
 		}
 
-		printf("Received a client connection from %s:%u\n", inet_ntoa(ClientAddress.sin_addr), htons(ClientAddress.sin_port));
+		printf("Received a client connection from %s:%u\r\n", inet_ntoa(ClientAddress.sin_addr), htons(ClientAddress.sin_port));
+		fflush(stdout);
 
 		/* Check if max clients is reached */
 		if (!checkVacancy()) {
-			printf("<< max clients reached\n");
+			printf("<< max clients reached\r\n");
+			fflush(stdout);
 			printf("<< reject ");
-			printf("\n");
+			fflush(stdout);
+			printf("\r\n");
 			closesocket(ClientSocket);
 			continue;
 		}
@@ -342,7 +374,8 @@ DWORD WINAPI acceptHandler(LPVOID ptr) {
 		sprintf(cli->name, "%d", cli->uid);
 
 #ifdef DEBUG
-		printf("To CreateThread\n");
+		printf("To CreateThread\r\n");
+		fflush(stdout);
 #endif
 		/*
 		Dispatch Thread to Connection Handler
@@ -357,7 +390,8 @@ DWORD WINAPI acceptHandler(LPVOID ptr) {
 ************************************************/
 BOOL WINAPI controlHandler(DWORD type) {
 	if (type == CTRL_C_EVENT) {
-		printf("CTRL+C Received. Terminating the server...\n");
+		printf("CTRL+C Received. Terminating the server...\r\n");
+		fflush(stdout);
 
 		/* Set flag so child threads eventually exit */
 		end_flag = 1;	// CTRL+C is received
@@ -444,7 +478,8 @@ DWORD WINAPI ConnectionHandler(LPVOID cli) {
 
 	/* Catch error if one occurs */
 	if (SendResult == SOCKET_ERROR) {
-		printf("Send failed with error: %d\n", WSAGetLastError());
+		printf("Send failed with error: %d\r\n", WSAGetLastError());
+		fflush(stdout);
 		closesocket(Client);
 		return 1;
 	}
@@ -507,7 +542,8 @@ DWORD WINAPI ConnectionHandler(LPVOID cli) {
 
 				  May perform "MITM" if enabled
 				************************************************/
-				printf("Received a message\n");
+				printf("Received a message\r\n");
+				fflush(stdout);
 
 				char* KnocBuf = malloc(3000);
 				memset(KnocBuf, 0, 3000);
@@ -527,7 +563,8 @@ DWORD WINAPI ConnectionHandler(LPVOID cli) {
 				if (MITM) {
 					char MITMStr[] = " hahaha...";
 					sprintf(KnocBuf, "%s %s", RecvBuf + 6, MITMStr);
-					printf("RecvBuf=%s\n", KnocBuf);
+					printf("RecvBuf=%s\r\n", KnocBuf);
+					fflush(stdout);
 				}
 
 				broadcast(KnocBuf, pCli);
@@ -556,9 +593,9 @@ DWORD WINAPI ConnectionHandler(LPVOID cli) {
 				  Change name function 
 				************************************************/
 				memcpy(pCli->name, RecvBuf + 5, Result - 5);
-				// printf("Name changed to %s, length=%d\n", pCli->name, strlen(pCli->name));
+				// printf("Name changed to %s, length=%d\r\n", pCli->name, strlen(pCli->name));
 				pCli->name[Result - 5 - 2] = '\0';
-				// printf("Name changed to %s, length=%d\n", pCli->name, strlen(pCli->name));
+				// printf("Name changed to %s, length=%d\r\n", pCli->name, strlen(pCli->name));
 				
 				/************************************************
 				  End Change Name Function
@@ -653,7 +690,8 @@ DWORD WINAPI ConnectionHandler(LPVOID cli) {
 			}
 			else if (strncmp(RecvBuf, "EXIT", 4) == 0) {
 				SendResult = send(Client, "GOODBYE\n", 8, 0);
-				printf("Connection closing...\n");
+				printf("Connection closing...\r\n");
+				fflush(stdout);
 				break; // Connection exits
 			}
 			else {
@@ -661,13 +699,15 @@ DWORD WINAPI ConnectionHandler(LPVOID cli) {
 			}
 
 			if (SendResult == SOCKET_ERROR) {
-				printf("Send failed with error: %d\n", WSAGetLastError());
+				printf("Send failed with error: %d\r\n", WSAGetLastError());
+				fflush(stdout);
 				break;
 			}
 		}
 		else if (Result == 0) {
 			/* If the connection has been gracefully closed, the return value is zero. */
-			printf("Connection closing...\n");
+			printf("Connection closing...\r\n");
+			fflush(stdout);
 			break;
 		}
 		else {
@@ -676,8 +716,10 @@ DWORD WINAPI ConnectionHandler(LPVOID cli) {
 			and a specific error code can be retrieved by calling WSAGetLastError.
 			*/
 
-			if (!end_flag)
-				printf("Recv failed with error: %d\n", WSAGetLastError());
+			if (!end_flag) {
+				printf("Recv failed with error: %d\r\n", WSAGetLastError());
+				fflush(stdout);
+			}
 			break;
 		}
 
@@ -712,6 +754,7 @@ int main(int argc, char* argv[]) {
 		}
 		else {
 			printf(Usage, argv[0], DEFAULT_PORT);
+			fflush(stdout);
 			return 1;
 		}
 	}
@@ -733,9 +776,11 @@ int main(int argc, char* argv[]) {
 
 
 	/* Print info and ensure external dll is loaded */
-	printf("Starting vulnserver version %s\n", VERSION);
+	printf("Starting vulnserver version %s\r\n", VERSION);
+	fflush(stdout);
 	EssentialFunc1(); // Call function from external dll
-	printf("\nThis is vulnerable software! Do not run at production systems!\nDo NOT try Windows console CMD's Mark and Copy! It stalks server!\n\nCTRL+C to terminate server!\n\n");
+	printf("\nThis is vulnerable software! Do not run at production systems!\nDo NOT try Windows console CMD's Mark and Copy! It stalks server!\n\nCTRL+C to terminate server!\n\r\n");
+	fflush(stdout);
 
 	/************************************************
 	   Accept CTRL+C from the console to exit the server
@@ -743,6 +788,7 @@ int main(int argc, char* argv[]) {
 	/************************************************/
 	if (!SetConsoleCtrlHandler(controlHandler, TRUE)) {
 		fprintf(stderr, "Failed SetConsoleCtrlHandler");
+		fflush(stderr);
 		return -1;
 	}
 	/************************************************
@@ -760,7 +806,8 @@ int main(int argc, char* argv[]) {
 		NULL);             // unnamed mutex
 
 	if (ghMutex == NULL) {
-		printf("CreateMutex error: %d\n", GetLastError());
+		printf("CreateMutex error: %d\r\n", GetLastError());
+		fflush(stdout);
 		return 1;
 	}
 

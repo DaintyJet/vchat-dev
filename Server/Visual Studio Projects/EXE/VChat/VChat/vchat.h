@@ -27,6 +27,12 @@ with the signature void <name>(void);
 */
 typedef void (*funcionpointer)();
 
+/* Structure used in CFG exploit */
+typedef struct {
+	char buff[400];
+	funcionpointer tgt_func;
+} function_auth;
+
 /* Client structure */
 typedef struct {
 	struct sockaddr_in addr; /* Client remote address */
@@ -96,12 +102,12 @@ void Function4(char* Input);
 void Function5(char* Input);
 void EssentialFunc1();
 
-
 /* Functions used for CFG overflow called by Function5 */
 /* Declared and Defined here for clear seperation*/
 void good_function(char* Input, SOCKET client) {
 	/* Send some data so the client knows we were successful */
 	send(client, "GOOD FUNCTION CALLED\n", 21, 0);
+	send(client, "The Secret is _____ \n", 21, 0);
 	return;
 }
 

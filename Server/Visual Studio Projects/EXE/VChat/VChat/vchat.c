@@ -439,10 +439,13 @@ void Function4(char* Input) {
 	strcpy(Buffer2S, Input);
 }
 void Function5(char* Input) {
-	funcionpointer someFunc = good_function;
-	char Buffer2S[1000];
-	strcpy(Buffer2S, Input);
-	someFunc();
+	function_auth usr_auth;
+	usr_auth.tgt_func = good_function;
+
+	strcpy(usr_auth.buff, Input);
+
+	/* Call function pointer */
+	usr_auth.tgt_func();
 	return;
 }
 

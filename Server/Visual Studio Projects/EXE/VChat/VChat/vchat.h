@@ -29,7 +29,7 @@ typedef void (*funcionpointer)();
 
 /* Structure used in CFG exploit */
 typedef struct {
-	char buff[400];
+	char buff[800];
 	funcionpointer tgt_func;
 } function_auth;
 

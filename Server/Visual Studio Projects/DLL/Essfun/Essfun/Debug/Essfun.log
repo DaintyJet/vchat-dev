@@ -1,8 +1,2 @@
-﻿  essfunc.c
-C:\Local-Git\vchat-dev\Server\Visual Studio Projects\DLL\Essfun\Essfun\essfunc.c(105,3): warning C4410: illegal size for operand
-C:\Local-Git\vchat-dev\Server\Visual Studio Projects\DLL\Essfun\Essfun\essfunc.c(105,3): warning C4409: illegal instruction size
-C:\Local-Git\vchat-dev\Server\Visual Studio Projects\DLL\Essfun\Essfun\essfunc.c(53,1): warning C4731: 'EssentialFunc4': frame pointer register 'ebp' modified by inline assembly code
-C:\Local-Git\vchat-dev\Server\Visual Studio Projects\DLL\Essfun\Essfun\essfunc.c(54,1): warning C4731: 'EssentialFunc4': frame pointer register 'ebp' modified by inline assembly code
-essfunc.obj : warning LNK4075: ignoring '/EDITANDCONTINUE' due to '/INCREMENTAL:NO' specification
-     Creating library C:\Local-Git\vchat-dev\Server\Visual Studio Projects\DLL\Essfun\Debug\libessfunc.a and object C:\Local-Git\vchat-dev\Server\Visual Studio Projects\DLL\Essfun\Debug\libessfunc.exp
-  Essfun.vcxproj -> C:\Local-Git\vchat-dev\Server\Visual Studio Projects\DLL\Essfun\Debug\Essfun.dll
+﻿     Creating library D:\Fu-Work\VChat\vchat-dev\Server\Visual Studio Projects\DLL\Essfun\Debug\libessfunc.a and object D:\Fu-Work\VChat\vchat-dev\Server\Visual Studio Projects\DLL\Essfun\Debug\libessfunc.exp
+  Essfun.vcxproj -> D:\Fu-Work\VChat\vchat-dev\Server\Visual Studio Projects\DLL\Essfun\Debug\Essfun.dll

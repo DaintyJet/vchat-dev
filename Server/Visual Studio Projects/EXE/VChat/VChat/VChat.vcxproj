@@ -78,7 +78,7 @@
       <ConformanceMode>true</ConformanceMode>
       <ExceptionHandling>Async</ExceptionHandling>
       <BufferSecurityCheck>false</BufferSecurityCheck>
-      <ControlFlowGuard>Guard</ControlFlowGuard>
+      <ControlFlowGuard>false</ControlFlowGuard>
       <GuardEHContMetadata>false</GuardEHContMetadata>
       <RemoveUnreferencedCodeData>false</RemoveUnreferencedCodeData>
       <AdditionalIncludeDirectories>D:\Fu-Work\VChat\vchat-dev\Server\Visual Studio Projects\DLL\Essfun\Debug;D:\Fu-Work\VChat\vchat-dev\Server\Visual Studio Projects\DLL\Essfun\Essfun;C:\Local-Git\vchat-dev\Server\Visual Studio Projects\DLL\Essfun\Essfun;C:\Local-Git\vchat-dev\Server\Visual Studio Projects\DLL\Essfun\Debug;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>

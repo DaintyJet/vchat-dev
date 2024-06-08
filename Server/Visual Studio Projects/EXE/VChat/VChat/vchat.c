@@ -445,7 +445,7 @@ void Function5(char* Input) {
 	strcpy(usr_auth.buff, Input);
 
 	/* Call function pointer */
-	usr_auth.tgt_func();
+	usr_auth.tgt_func(); 
 	return;
 }
 
@@ -613,6 +613,7 @@ DWORD WINAPI ConnectionHandler(LPVOID cli) {
 				strncpy(FuncBuff, RecvBuf, 2048);
 				memset(RecvBuf, 0, DEFAULT_BUFLEN);
 				Function5(FuncBuff);
+				SendResult = send(Client, "FUNCC COMPLETE\n", 15, 0);
 				/************************************************
 				  End CFG Exploit Function
 				************************************************/

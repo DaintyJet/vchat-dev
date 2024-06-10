@@ -3,16 +3,16 @@
   "WorkspaceRootPath": "D:\\Fu-Work\\VChat\\vchat-dev\\Server\\Visual Studio Projects\\DLL\\Essfun\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{011E2D62-94CF-439E-9633-114E25A56A61}|Essfun\\Essfun.vcxproj|D:\\Fu-Work\\VChat\\vchat-dev\\Server\\Visual Studio Projects\\DLL\\Essfun\\Essfun\\essfunc.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{011E2D62-94CF-439E-9633-114E25A56A61}|Essfun\\Essfun.vcxproj|solutionrelative:Essfun\\essfunc.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{011E2D62-94CF-439E-9633-114E25A56A61}|Essfun\\Essfun.vcxproj|D:\\Fu-Work\\VChat\\vchat-dev\\Server\\Visual Studio Projects\\DLL\\Essfun\\Essfun\\essfunc.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
       "RelativeMoniker": "D:0:0:{011E2D62-94CF-439E-9633-114E25A56A61}|Essfun\\Essfun.vcxproj|solutionrelative:Essfun\\essfunc.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\Fu-Work\\VChat\\vchat-dev\\Server\\Visual Studio Projects\\DLL\\Essfun\\Debug\\Essfun.map||{3B902123-F8A7-4915-9F01-361F908088D0}",
       "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Debug\\Essfun.map||{3B902123-F8A7-4915-9F01-361F908088D0}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{011E2D62-94CF-439E-9633-114E25A56A61}|Essfun\\Essfun.vcxproj|D:\\Fu-Work\\VChat\\vchat-dev\\Server\\Visual Studio Projects\\DLL\\Essfun\\Essfun\\essfunc.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{011E2D62-94CF-439E-9633-114E25A56A61}|Essfun\\Essfun.vcxproj|solutionrelative:Essfun\\essfunc.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     }
   ],
   "DocumentGroupContainers": [
@@ -22,7 +22,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 2,
+          "SelectedChildIndex": 4,
           "Children": [
             {
               "$type": "Bookmark",
@@ -34,20 +34,20 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 1,
               "Title": "essfunc.h",
               "DocumentMoniker": "D:\\Fu-Work\\VChat\\vchat-dev\\Server\\Visual Studio Projects\\DLL\\Essfun\\Essfun\\essfunc.h",
               "RelativeDocumentMoniker": "Essfun\\essfunc.h",
               "ToolTip": "D:\\Fu-Work\\VChat\\vchat-dev\\Server\\Visual Studio Projects\\DLL\\Essfun\\Essfun\\essfunc.h",
               "RelativeToolTip": "Essfun\\essfunc.h",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAgAAAAFAAAA",
+              "ViewState": "AQIAABgAAAAAAAAAAAAAAAgAAAAFAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
               "WhenOpened": "2024-05-28T17:44:35.661Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 2,
               "Title": "Essfun.map",
               "DocumentMoniker": "D:\\Fu-Work\\VChat\\vchat-dev\\Server\\Visual Studio Projects\\DLL\\Essfun\\Debug\\Essfun.map",
               "RelativeDocumentMoniker": "Debug\\Essfun.map",
@@ -59,15 +59,16 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 0,
               "Title": "essfunc.c",
               "DocumentMoniker": "D:\\Fu-Work\\VChat\\vchat-dev\\Server\\Visual Studio Projects\\DLL\\Essfun\\Essfun\\essfunc.c",
               "RelativeDocumentMoniker": "Essfun\\essfunc.c",
               "ToolTip": "D:\\Fu-Work\\VChat\\vchat-dev\\Server\\Visual Studio Projects\\DLL\\Essfun\\Essfun\\essfunc.c",
               "RelativeToolTip": "Essfun\\essfunc.c",
-              "ViewState": "AQIAAAwAAAAAAAAAAAAAABgAAAATAAAA",
+              "ViewState": "AQIAAA4AAAAAAAAAAAAwwBYAAAAWAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000423|",
-              "WhenOpened": "2024-05-28T17:44:35.754Z"
+              "WhenOpened": "2024-05-28T17:44:35.754Z",
+              "EditorCaption": ""
             }
           ]
         }

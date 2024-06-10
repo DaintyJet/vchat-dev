@@ -14,7 +14,7 @@
 Define Constants used to control
 default behavior and output.
 */
-#define VERSION "2.02"
+#define VERSION "2.12"
 #define DEFAULT_BUFLEN 4096
 #define DEFAULT_PORT "9999"
 #define MAX_CLIENTS 100

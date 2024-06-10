@@ -104,7 +104,7 @@ void queue_delete(client_t* cl) {
 		/* Remove client from queue */
 		cli_count--;
 		printf("queue_delete: A client just left. %d clients now\r\n", cli_count);
-		fflush(stdout);
+		fflush(stdout); fflush(stdout);
 		for (int i = 0; i < MAX_CLIENTS; ++i) {
 			if (clients[i]) {
 				if (clients[i]->uid == cl->uid) {
@@ -238,7 +238,7 @@ bool checkVacancy() {
 		else {
 #ifdef DEBUG
 			printf("CheckVacnacy: ReleaseMutex success\r\n");
-			fflush(stdout);
+			//-fflush(stdout);
 #endif
 		}
 
@@ -339,30 +339,31 @@ DWORD WINAPI acceptHandler(LPVOID ptr) {
 	/* Infinate loop to accept and dispatch client connections */
 	while (1) {
 		printf("Waiting for client connections...\r\n");
-		fflush(stdout);
+		//-fflush(stdout);
 		/* Accept connections from the listen socket allocated earlier */
 		ClientSocket = accept(ListenSocket, (SOCKADDR*)&ClientAddress, &ClientAddressL);
 		if (ClientSocket == INVALID_SOCKET) {
 			if (!end_flag) {
 				printf("Accept failed with error: %d\r\n", WSAGetLastError());
-				fflush(stdout);
 			}
 			closesocket(ListenSocket);
 			WSACleanup();
+			fflush(stdout);
 			return 1;
 		}
 
 		printf("Received a client connection from %s:%u\r\n", inet_ntoa(ClientAddress.sin_addr), htons(ClientAddress.sin_port));
-		fflush(stdout);
+		//-fflush(stdout);
 
 		/* Check if max clients is reached */
 		if (!checkVacancy()) {
 			printf("<< max clients reached\r\n");
-			fflush(stdout);
+			//-fflush(stdout);
 			printf("<< reject ");
-			fflush(stdout);
+			//-fflush(stdout);
 			printf("\r\n");
 			closesocket(ClientSocket);
+			fflush(stdout);
 			continue;
 		}
 
@@ -546,7 +547,7 @@ DWORD WINAPI ConnectionHandler(LPVOID cli) {
 				  May perform "MITM" if enabled
 				************************************************/
 				printf("Received a message\r\n");
-				fflush(stdout);
+				//-fflush(stdout);
 
 				char* KnocBuf = malloc(3000);
 				memset(KnocBuf, 0, 3000);
@@ -567,8 +568,9 @@ DWORD WINAPI ConnectionHandler(LPVOID cli) {
 					char MITMStr[] = " hahaha...";
 					sprintf(KnocBuf, "%s %s", RecvBuf + 6, MITMStr);
 					printf("RecvBuf=%s\r\n", KnocBuf);
-					fflush(stdout);
+					//-fflush(stdout);
 				}
+				fflush(stdout);
 
 				broadcast(KnocBuf, pCli);
 
@@ -695,7 +697,7 @@ DWORD WINAPI ConnectionHandler(LPVOID cli) {
 			else if (strncmp(RecvBuf, "EXIT", 4) == 0) {
 				SendResult = send(Client, "GOODBYE\n", 8, 0);
 				printf("Connection closing...\r\n");
-				fflush(stdout);
+				//-fflush(stdout);
 				break; // Connection exits
 			}
 			else {
@@ -704,14 +706,14 @@ DWORD WINAPI ConnectionHandler(LPVOID cli) {
 
 			if (SendResult == SOCKET_ERROR) {
 				printf("Send failed with error: %d\r\n", WSAGetLastError());
-				fflush(stdout);
+				//-fflush(stdout);
 				break;
 			}
 		}
 		else if (Result == 0) {
 			/* If the connection has been gracefully closed, the return value is zero. */
 			printf("Connection closing...\r\n");
-			fflush(stdout);
+			//-fflush(stdout);
 			break;
 		}
 		else {
@@ -722,7 +724,7 @@ DWORD WINAPI ConnectionHandler(LPVOID cli) {
 
 			if (!end_flag) {
 				printf("Recv failed with error: %d\r\n", WSAGetLastError());
-				fflush(stdout);
+				//-fflush(stdout);
 			}
 			break;
 		}
@@ -745,10 +747,14 @@ int main(int argc, char* argv[]) {
 	char PortNumber[6];	// Server port number
 	const char Usage[128] = "Wrong arguments!\nUsage: %s [port_number]\n\nIf no port number is provided, the default port of %s will be used.\n";
 	
+	/* Configure printf to not use buffer (Immediate write to pipe) */
+	//setvbuf(stdout, NULL, _IONBF, 0);
+
 	/* Configure based on CLI arguments */
 	if (argc > 2) {
 		// Too many command line arguments
 		printf(Usage, argv[0], DEFAULT_PORT);
+		fflush(stdout);
 		return 1;
 	}
 	else if (argc == 2) {
@@ -781,7 +787,7 @@ int main(int argc, char* argv[]) {
 
 	/* Print info and ensure external dll is loaded */
 	printf("Starting vulnserver version %s\r\n", VERSION);
-	fflush(stdout);
+	//-fflush(stdout);
 	EssentialFunc1(); // Call function from external dll
 	printf("\nThis is vulnerable software! Do not run at production systems!\nDo NOT try Windows console CMD's Mark and Copy! It stalks server!\n\nCTRL+C to terminate server!\n\r\n");
 	fflush(stdout);

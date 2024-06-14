@@ -102,7 +102,6 @@
       <DataExecutionPrevention>false</DataExecutionPrevention>
       <ImportLibrary>$(OutDir)libessfunc.a</ImportLibrary>
       <ImageHasSafeExceptionHandlers>false</ImageHasSafeExceptionHandlers>
-      <FixedBaseAddress>false</FixedBaseAddress>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">

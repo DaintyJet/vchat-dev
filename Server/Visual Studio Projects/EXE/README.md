@@ -90,3 +90,4 @@
         <img src="Images/I21.png">
 
 6. Build the project!
+7. For the project to run you will need to copy the DLL over to the same directory as the EXE. If you make modifications to the DLL you will need to copy it over too.

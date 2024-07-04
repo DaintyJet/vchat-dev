@@ -78,7 +78,7 @@
       <ConformanceMode>true</ConformanceMode>
       <ExceptionHandling>Async</ExceptionHandling>
       <BufferSecurityCheck>false</BufferSecurityCheck>
-      <ControlFlowGuard>false</ControlFlowGuard>
+      <ControlFlowGuard>Guard</ControlFlowGuard>
       <GuardEHContMetadata>false</GuardEHContMetadata>
       <RemoveUnreferencedCodeData>false</RemoveUnreferencedCodeData>
       <AdditionalIncludeDirectories>D:\Fu-Work\VChat\vchat-dev\Server\Visual Studio Projects\DLL\Essfun\Debug;D:\Fu-Work\VChat\vchat-dev\Server\Visual Studio Projects\DLL\Essfun\Essfun;C:\Local-Git\vchat-dev\Server\Visual Studio Projects\DLL\Essfun\Essfun;C:\Local-Git\vchat-dev\Server\Visual Studio Projects\DLL\Essfun\Debug;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
@@ -92,8 +92,8 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <MapExports>true</MapExports>
       <OptimizeReferences>false</OptimizeReferences>
-      <RandomizedBaseAddress>false</RandomizedBaseAddress>
-      <DataExecutionPrevention>false</DataExecutionPrevention>
+      <RandomizedBaseAddress>true</RandomizedBaseAddress>
+      <DataExecutionPrevention>true</DataExecutionPrevention>
       <ImageHasSafeExceptionHandlers>false</ImageHasSafeExceptionHandlers>
       <AdditionalLibraryDirectories>D:\Fu-Work\VChat\vchat-dev\Server\Visual Studio Projects\DLL\Essfun\Debug;C:\Local-Git\vchat-dev\Server\Visual Studio Projects\DLL\Essfun\Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>libessfunc.a;%(AdditionalDependencies)</AdditionalDependencies>

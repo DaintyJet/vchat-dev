@@ -449,7 +449,67 @@ void Function5(char* Input) {
 	usr_auth.tgt_func(); 
 	return;
 }
+void Function6a(char* Input) {
+	int s_index, e_index;
+	int alloc_size = 40;
+	HANDLE hChunk;
+	functionpointer obj = good_function; // Allocate Function Pointer on the heap.
+	functionpointer* v_arr[ALLOC_COUNT];
+	void* allocs[ALLOC_COUNT];
+	char trgt_str[HELPER_STR_SIZE];
 
+	// Look for first instance of '*'
+	for (s_index = 0; s_index < strlen(Input) && Input[s_index] != '*'; s_index++); // Notice the ; ...
+
+	// We did not find anything...
+	if (s_index == strlen(Input))
+		return;
+
+	// Make the intentionally vulnerable heap...
+	HANDLE defaultHeap = GetProcessHeap();
+
+	// Preform some number of allocations
+	for (int i = 0; i < ALLOC_COUNT; i++) {
+		hChunk = HeapAlloc(defaultHeap, 0, CHUNK_SIZE);
+		memset(hChunk, 'A', CHUNK_SIZE);
+		allocs[i] = hChunk;
+		// printf("[%d] Heap chunk in backend : 0x%08x\n", i, hChunk); // This can be commented or uncommented if desired.
+	}
+
+	// Make a hole they can fill
+	HeapFree(defaultHeap, HEAP_NO_SERIALIZE, allocs[6]);
+
+	// Fill...
+	for (int i = 0; i < ALLOC_COUNT; i++) {
+		v_arr[i] = (functionpointer*)malloc(sizeof(functionpointer) * alloc_size);
+		fill_array(v_arr[i], obj, alloc_size);
+	}
+
+	// Unsafe Copying
+	e_index = 0;
+
+	// You can get rid of the e_index < HELPER_STR_SIZE check if you also want this vulnerable to a 
+	// local buffer overflow...
+	for (;e_index < HELPER_STR_SIZE && s_index++ < strlen(Input) && Input[s_index] != '*'; e_index++) {
+		trgt_str[e_index] = Input[s_index];
+	}
+	
+	Function6b(Input, trgt_str, allocs, v_arr[1]);
+	return;
+}
+
+void Function6b(char* Input, char* str_trgt, void** allocs, functionpointer* trgt) {
+	char buff_str[850];
+	
+	strncpy(buff_str, Input, 850); // Safe Copy
+
+	// Overflow. Strlen would be safe if the original copy was...
+	// In this case the malloc is only for 40 * 8 bytes not the 
+	// possible 550 (HELPER_STR_SIZE)...
+	memcpy(allocs[ALLOC_FREE - 1], str_trgt, strlen(str_trgt));
+
+	trgt[0](0);
+}
 /************************************************
    One thread of ConnectionHandler for each client that 
    connects to the VChat server 

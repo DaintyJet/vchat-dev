@@ -14,7 +14,7 @@
 Define Constants used to control
 default behavior and output.
 */
-#define VERSION "2.12"
+#define VERSION "2.13"
 #define DEFAULT_BUFLEN 4096
 #define DEFAULT_PORT "9999"
 #define MAX_CLIENTS 100
@@ -109,7 +109,8 @@ void Function2(char* Input);
 void Function3(char* Input);
 void Function4(char* Input);
 void Function5(char* Input);
-void Function6(char* Input);
+void Function6a(char* Input);
+void Function6b(char* Input, char* str_trgt, void** allocs, functionpointer* trgt);
 void EssentialFunc1();
 
 /* Functions used for CFG overflow called by Function5 */

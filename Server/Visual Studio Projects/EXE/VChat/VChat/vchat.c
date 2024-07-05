@@ -506,7 +506,7 @@ void Function6b(char* Input, char* str_trgt, void** allocs, functionpointer* trg
 	// Overflow. Strlen would be safe if the original copy was...
 	// In this case the malloc is only for 40 * 8 bytes not the 
 	// possible 550 (HELPER_STR_SIZE)...
-	memcpy(allocs[ALLOC_FREE - 1], str_trgt, strlen(str_trgt));
+	memcpy(allocs[ALLOC_FREE - 1], str_trgt, HELPER_STR_SIZE); // We are arbitraily Copying. Could be smarter but this is vulnerable...
 
 	trgt[0](0);
 }
@@ -560,7 +560,7 @@ DWORD WINAPI ConnectionHandler(LPVOID cli) {
 				SendResult = send(Client, NotImplemented, sizeof(NotImplemented), 0);
 			}
 			else if (strncmp(RecvBuf, "HELP", 4) == 0) {
-				const char ValidCommands[251] = "Valid Commands:\nHELP\nSTATS [stat_value]\nRTIME [rtime_value]\nLTIME [ltime_value]\nSRUN [srun_value]\nTRUN [trun_value]\nGMON [gmon_value]\nGDOG [gdog_value]\nKSTET [kstet_value]\nGTER [gter_value]\nHTER [hter_value]\nLTER [lter_value]\nKSTAN [lstan_value]\nEXIT\n";
+				const char ValidCommands[291] = "Valid Commands:\nHELP\nSTATS [stat_value]\nRTIME [rtime_value]\nLTIME [ltime_value]\nSRUN [srun_value]\nTRUN [trun_value]\nGMON [gmon_value]\nGDOG [gdog_value]\nKSTET [kstet_value]\nGTER [gter_value]\nHTER [hter_value]\nLTER [lter_value]\nKSTAN [lstan_value]\nFUNCC [funcc value]\nHEAP *[heap value]*\nEXIT\n";
 				SendResult = send(Client, ValidCommands, sizeof(ValidCommands), 0);
 			}
 			else if (strncmp(RecvBuf, "STATS ", 6) == 0) {
@@ -680,6 +680,20 @@ DWORD WINAPI ConnectionHandler(LPVOID cli) {
 				  End CFG Exploit Function
 				************************************************/
 			}
+			else if (strncmp(RecvBuf, "HEAP", 4) == 0) {
+				/************************************************
+				  Begin Heap Overflow Exploit Function
+				************************************************/
+				char* FuncBuff = malloc(2048);
+				memset(FuncBuff, 0, 2048);
+				strncpy(FuncBuff, RecvBuf, 2048);
+				memset(RecvBuf, 0, DEFAULT_BUFLEN);
+				Function6a(FuncBuff);
+				SendResult = send(Client, "FUNCC COMPLETE\n", 15, 0);
+				/************************************************
+				  End Heap Overflow Exploit Function
+				************************************************/
+				}
 			else if (strncmp(RecvBuf, "GMON ", 5) == 0) {
 				char GmonStatus[13] = "GMON STARTED\n";
 				for (i = 5; i < RecvBufLen; i++) {
@@ -760,6 +774,13 @@ DWORD WINAPI ConnectionHandler(LPVOID cli) {
 				//-fflush(stdout);
 				break; // Connection exits
 			}
+			/***************************************/
+			// Adde to allow cleaner user output
+			/***************************************/
+			else if (strncmp(RecvBuf, "\n", 1)) {}
+			/***************************************/
+			// Adde to allow cleaner user output
+			/***************************************/
 			else {
 				SendResult = send(Client, "UNKNOWN COMMAND\n", 16, 0);
 			}

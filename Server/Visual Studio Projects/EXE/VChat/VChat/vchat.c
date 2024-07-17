@@ -512,16 +512,15 @@ void Function6b(char* Input, char* str_trgt, void** allocs, functionpointer* trg
 }
 
 // Leak Info
-void Function7(char* Input) {
+void Function7(char* Input, SOCKET Client) {
 	BSTR bstr;
 	int s_index, e_index;
 	int alloc_size = 40;
 	HANDLE hChunk;
-	functionpointer obj = good_function; // Allocate Function Pointer on the heap.
-	functionpointer* v_arr[ALLOC_COUNT];
+	BSTR s_arr[ALLOC_COUNT/2];
 	void* allocs[ALLOC_COUNT];
+	functionpointer* tmp;
 	char trgt_str[HELPER_STR_SIZE];
-
 
 
 	// Look for first instance of '*'
@@ -542,39 +541,132 @@ void Function7(char* Input) {
 		// printf("[%d] Heap chunk in backend : 0x%08x\n", i, hChunk); // This can be commented or uncommented if desired.
 	}
 	// Free 
+	HeapFree(defaultHeap, NULL, allocs[5]);
 
 	// Allocate Strings
+	for (int i = 0; i < ALLOC_COUNT/2; ++i) 
+		s_arr[i] = SysAllocString("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
 
 	// Free Allocation
+	HeapFree(defaultHeap, NULL, allocs[6]);
 
 	// Allocation Adress we want to leak
-
+	for (int i = 0; i < ALLOC_COUNT; i++) {
+		// We are leaking anyways
+		tmp = malloc(sizeof(functionpointer));
+		*tmp = queue_add;
+	}
 
 	// Unsafe Copying
 	e_index = 0;
 
 	// You can get rid of the e_index < HELPER_STR_SIZE check if you also want this vulnerable to a 
 	// local buffer overflow...
-	for (; e_index < HELPER_STR_SIZE && s_index++ < strlen(Input) && Input[s_index] != '*'; e_index++) {
+	for (; e_index < HELPER_STR_SIZE && s_index++ < strlen(Input) && Input[s_index] != '*'; e_index++)
 		trgt_str[e_index] = Input[s_index];
-	}
+	
 
 	// Send string back
+	for (int i = 0; i < SysStringByteLen(s_arr[0]); i++)
+		send(Client, s_arr[0][i], 1, 0);
+	
+	return;
 }
 
 // SUer Controlled Allocations
-void Function8(char* Input) {
-
+void Function8a(char* Rcv, SOCKET Client) {
+	unsigned int s_index = 0, e_index = 0, s_cnt = 0, p_cnt = 0;
+	char trgt_str[HELPER_STR_SIZE];
+	char* s_ptr[20];
+	functionpointer* p_ptr[20];
+	functionpointer* tmp_pnt;
 
 	// Send message asking user what they want us to do
+	send(Client, "Awaiting Command\nEND: Ends the current HEAP3 command\nSTR *STRING*: Store the values between \"*\" onto the heap\nSTR-RLS #: Remove the specified string from the heap\nFNC #: Allocate function array for # of pointers\n", 212, 0);
 
-	// 0 = End
+	while (1) {
+		// Get User Input
+		recv(Client, Rcv, DEFAULT_BUFLEN, 0);
+		// 0 = End
+		if (strcmp(Rcv, "END", 3) == 0) {
+			send(Client, "Thank You For using HEAP3\n", 24, 0);
+			break;
+		}
+		// 1 = Store String; Maybe STR *STRING*, returns index
+		else if (strcmp(Rcv, "STR", 3) == 0) {
+			
+			if (s_cnt > 20) {
+				send(Client, "We cannot store any additional strings\n", 39, 0);
+				continue;
+			}
+			
+			// Look for first instance of '*'
+			for (s_index = 0; s_index < strlen(Rcv) && Rcv[s_index] != '*'; s_index++); // Notice the ; ...
 
-	// 1 = Store String; Maybe STR *STRING*, returns index
+			// We did not find anything...
+			if (s_index == strlen(Rcv))
+				break;
+			
+			// Unsafe Copying
+			e_index = 0;
 
-	// 2 = Release String; Maybe STR-RLS #
+			// You can get rid of the e_index < HELPER_STR_SIZE check if you also want this vulnerable to a 
+			// local buffer overflow...
+			for (; e_index < HELPER_STR_SIZE && s_index++ < strlen(Rcv) && Rcv[s_index] != '*'; e_index++)
+				trgt_str[e_index] = Rcv[s_index];
 
-	// 3 = Save Function List (How many); FNC #(Multiply it by 4) 
+			// Put string on heap
+			s_ptr[s_cnt] = malloc(80);
+			strcpy(s_cnt, trgt_str);
+
+			sprintf(trgt_str, "Thank you for saving your string it is located at %d", s_cnt);
+			send(Client, trgt_str, strlen(trgt_str), 0);
+			s_cnt++;
+		}
+		// 2 = Release String; Maybe STR-RLS #
+		else if (strcmp(Rcv, "STR-RLS", 7) == 0) {
+			if (Rcv[8] != '\0' && Rcv[9] != '\0')
+				s_index = atoi(Rcv[9]);
+
+			if (Rcv[8] != '\0' && Rcv[10] != '\0') {
+				s_index *= 10;
+				s_index += atoi(Rcv[10]);
+			}
+
+			free(s_index);
+		}
+		// 3 = Save Function List (How many); FNC #(Multiply it by 4) 
+		else if (strcmp(Rcv, "FNC", 3) == 0) {
+			if (Rcv[4] == '\0' || Rcv[5] == '\0') {
+				send(Client, "Please provide the index\n", 25, 0);
+				continue;
+			}
+			else if (p_cnt >= 20) {
+				send(Client, "Failure\n", 8, 0);
+				continue;
+			}
+			s_index = atoi(Rcv[5]);
+
+			tmp_pnt = malloc(sizeof(functionpointer) * s_index);
+			for (int i = 0; i < s_index; i++) {
+				tmp_pnt[i] = good_function;
+			}
+			p_ptr[p_cnt++] = tmp_pnt;
+			send(Client, "Success\n", 8, 0);
+		}
+	}
+	Function8b(Rcv, p_ptr[--p_cnt][0]);
+	
+	send(Client, "Finished\n", 10, 0);
+	return;
+}
+
+void Function8b(char* Rcv, functionpointer ptr) {
+	char d_str[1000];
+	strncpy(d_str, Rcv, 1000);
+
+	ptr(100);
+	return;
 }
 
 /************************************************

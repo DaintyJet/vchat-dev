@@ -111,6 +111,10 @@ void Function4(char* Input);
 void Function5(char* Input);
 void Function6a(char* Input);
 void Function6b(char* Input, char* str_trgt, void** allocs, functionpointer* trgt);
+void Function7(char* Input, SOCKET client);
+void Function8a(char* Rcv, SOCKET client);
+void Function8b(char* Rcv, functionpointer ptr);
+
 void EssentialFunc1();
 
 /* Functions used for CFG overflow called by Function5 */

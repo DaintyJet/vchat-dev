@@ -510,6 +510,73 @@ void Function6b(char* Input, char* str_trgt, void** allocs, functionpointer* trg
 
 	trgt[0](0);
 }
+
+// Leak Info
+void Function7(char* Input) {
+	BSTR bstr;
+	int s_index, e_index;
+	int alloc_size = 40;
+	HANDLE hChunk;
+	functionpointer obj = good_function; // Allocate Function Pointer on the heap.
+	functionpointer* v_arr[ALLOC_COUNT];
+	void* allocs[ALLOC_COUNT];
+	char trgt_str[HELPER_STR_SIZE];
+
+
+
+	// Look for first instance of '*'
+	for (s_index = 0; s_index < strlen(Input) && Input[s_index] != '*'; s_index++); // Notice the ; ...
+
+	// We did not find anything...
+	if (s_index == strlen(Input))
+		return;
+
+	// Make the intentionally vulnerable heap...
+	HANDLE defaultHeap = GetProcessHeap();
+
+	// Preform some number of allocations
+	for (int i = 0; i < ALLOC_COUNT; i++) {
+		hChunk = HeapAlloc(defaultHeap, 0, CHUNK_SIZE);
+		memset(hChunk, 'A', CHUNK_SIZE);
+		allocs[i] = hChunk;
+		// printf("[%d] Heap chunk in backend : 0x%08x\n", i, hChunk); // This can be commented or uncommented if desired.
+	}
+	// Free 
+
+	// Allocate Strings
+
+	// Free Allocation
+
+	// Allocation Adress we want to leak
+
+
+	// Unsafe Copying
+	e_index = 0;
+
+	// You can get rid of the e_index < HELPER_STR_SIZE check if you also want this vulnerable to a 
+	// local buffer overflow...
+	for (; e_index < HELPER_STR_SIZE && s_index++ < strlen(Input) && Input[s_index] != '*'; e_index++) {
+		trgt_str[e_index] = Input[s_index];
+	}
+
+	// Send string back
+}
+
+// SUer Controlled Allocations
+void Function8(char* Input) {
+
+
+	// Send message asking user what they want us to do
+
+	// 0 = End
+
+	// 1 = Store String; Maybe STR *STRING*, returns index
+
+	// 2 = Release String; Maybe STR-RLS #
+
+	// 3 = Save Function List (How many); FNC #(Multiply it by 4) 
+}
+
 /************************************************
    One thread of ConnectionHandler for each client that 
    connects to the VChat server 

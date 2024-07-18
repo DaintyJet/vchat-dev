@@ -14,22 +14,7 @@ D:\Fu-Work\VChat\vchat-dev\Server\Visual Studio Projects\EXE\VChat\VChat\vchat.c
 D:\Fu-Work\VChat\vchat-dev\Server\Visual Studio Projects\EXE\VChat\VChat\vchat.c(551,24): warning C4047: 'function': 'DWORD' differs in levels of indirection from 'void *'
 D:\Fu-Work\VChat\vchat-dev\Server\Visual Studio Projects\EXE\VChat\VChat\vchat.c(551,24): warning C4024: 'HeapFree': different types for formal and actual parameter 2
 D:\Fu-Work\VChat\vchat-dev\Server\Visual Studio Projects\EXE\VChat\VChat\vchat.c(565,48): warning C4018: '<': signed/unsigned mismatch
-D:\Fu-Work\VChat\vchat-dev\Server\Visual Studio Projects\EXE\VChat\VChat\vchat.c(570,20): warning C4018: '<': signed/unsigned mismatch
-D:\Fu-Work\VChat\vchat-dev\Server\Visual Studio Projects\EXE\VChat\VChat\vchat.c(571,24): warning C4047: 'function': 'const char *' differs in levels of indirection from 'OLECHAR'
-D:\Fu-Work\VChat\vchat-dev\Server\Visual Studio Projects\EXE\VChat\VChat\vchat.c(571,24): warning C4024: 'send': different types for formal and actual parameter 2
+D:\Fu-Work\VChat\vchat-dev\Server\Visual Studio Projects\EXE\VChat\VChat\vchat.c(571,20): warning C4133: 'function': incompatible types - from 'BSTR' to 'const char *'
 D:\Fu-Work\VChat\vchat-dev\Server\Visual Studio Projects\EXE\VChat\VChat\vchat.c(516,7): warning C4101: 'bstr': unreferenced local variable
-D:\Fu-Work\VChat\vchat-dev\Server\Visual Studio Projects\EXE\VChat\VChat\vchat.c(591,26): warning C4020: 'strcmp': too many actual parameters
-D:\Fu-Work\VChat\vchat-dev\Server\Visual Studio Projects\EXE\VChat\VChat\vchat.c(596,31): warning C4020: 'strcmp': too many actual parameters
-D:\Fu-Work\VChat\vchat-dev\Server\Visual Studio Projects\EXE\VChat\VChat\vchat.c(620,11): warning C4047: 'function': 'char *' differs in levels of indirection from 'unsigned int'
-D:\Fu-Work\VChat\vchat-dev\Server\Visual Studio Projects\EXE\VChat\VChat\vchat.c(620,11): warning C4024: 'strcpy': different types for formal and actual parameter 1
-D:\Fu-Work\VChat\vchat-dev\Server\Visual Studio Projects\EXE\VChat\VChat\vchat.c(627,35): warning C4020: 'strcmp': too many actual parameters
-D:\Fu-Work\VChat\vchat-dev\Server\Visual Studio Projects\EXE\VChat\VChat\vchat.c(629,23): warning C4047: 'function': 'const char *' differs in levels of indirection from 'char'
-D:\Fu-Work\VChat\vchat-dev\Server\Visual Studio Projects\EXE\VChat\VChat\vchat.c(629,23): warning C4024: 'atoi': different types for formal and actual parameter 1
-D:\Fu-Work\VChat\vchat-dev\Server\Visual Studio Projects\EXE\VChat\VChat\vchat.c(633,24): warning C4047: 'function': 'const char *' differs in levels of indirection from 'char'
-D:\Fu-Work\VChat\vchat-dev\Server\Visual Studio Projects\EXE\VChat\VChat\vchat.c(633,24): warning C4024: 'atoi': different types for formal and actual parameter 1
-D:\Fu-Work\VChat\vchat-dev\Server\Visual Studio Projects\EXE\VChat\VChat\vchat.c(636,9): warning C4022: 'free': pointer mismatch for actual parameter 1
-D:\Fu-Work\VChat\vchat-dev\Server\Visual Studio Projects\EXE\VChat\VChat\vchat.c(639,31): warning C4020: 'strcmp': too many actual parameters
-D:\Fu-Work\VChat\vchat-dev\Server\Visual Studio Projects\EXE\VChat\VChat\vchat.c(648,22): warning C4047: 'function': 'const char *' differs in levels of indirection from 'char'
-D:\Fu-Work\VChat\vchat-dev\Server\Visual Studio Projects\EXE\VChat\VChat\vchat.c(648,22): warning C4024: 'atoi': different types for formal and actual parameter 1
-D:\Fu-Work\VChat\vchat-dev\Server\Visual Studio Projects\EXE\VChat\VChat\vchat.c(651,22): warning C4018: '<': signed/unsigned mismatch
+D:\Fu-Work\VChat\vchat-dev\Server\Visual Studio Projects\EXE\VChat\VChat\vchat.c(658,22): warning C4018: '<': signed/unsigned mismatch
   VChat.vcxproj -> D:\Fu-Work\VChat\vchat-dev\Server\Visual Studio Projects\EXE\VChat\Debug\VChat.exe

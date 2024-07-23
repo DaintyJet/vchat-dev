@@ -515,7 +515,7 @@ void Function6b(char* Input, char* str_trgt, void** allocs, functionpointer* trg
 void Function7(char* Input, SOCKET Client) {
 	BSTR bstr;
 	int s_index, e_index;
-	int alloc_size = 40;
+	int alloc_size = 120;
 	HANDLE hChunk;
 	BSTR s_arr[ALLOC_COUNT/2];
 	void* allocs[ALLOC_COUNT];
@@ -535,8 +535,8 @@ void Function7(char* Input, SOCKET Client) {
 
 	// Preform some number of allocations
 	for (int i = 0; i < ALLOC_COUNT; i++) {
-		hChunk = HeapAlloc(defaultHeap, 0, CHUNK_SIZE);
-		memset(hChunk, 'A', CHUNK_SIZE);
+		hChunk = HeapAlloc(defaultHeap, 0, alloc_size);
+		memset(hChunk, 'A', alloc_size);
 		allocs[i] = hChunk;
 		// printf("[%d] Heap chunk in backend : 0x%08x\n", i, hChunk); // This can be commented or uncommented if desired.
 	}
@@ -545,7 +545,7 @@ void Function7(char* Input, SOCKET Client) {
 
 	// Allocate Strings
 	for (int i = 0; i < ALLOC_COUNT/2; ++i) 
-		s_arr[i] = SysAllocString("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+		s_arr[i] = SysAllocString("CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC");
 
 	// Free Allocation
 	HeapFree(defaultHeap, NULL, allocs[6]);
@@ -565,9 +565,13 @@ void Function7(char* Input, SOCKET Client) {
 	for (; e_index < HELPER_STR_SIZE && s_index++ < strlen(Input) && Input[s_index] != '*'; e_index++)
 		trgt_str[e_index] = Input[s_index];
 	
-	
+	printf("Pre Size: %d\n", SysStringByteLen(s_arr[0]));
 
+	strcpy(allocs[4], trgt_str);
 
+	printf("Post Size: %d\n", SysStringByteLen(s_arr[0]));
+
+	printf("%s\n", s_arr[0]);
 	send(Client, s_arr[0], SysStringByteLen(s_arr[0]), 0);
 	
 	return;
@@ -870,7 +874,7 @@ DWORD WINAPI ConnectionHandler(LPVOID cli) {
 				strncpy(FuncBuff, RecvBuf, 2048);
 				memset(RecvBuf, 0, DEFAULT_BUFLEN);
 				Function7(FuncBuff, Client);
-				SendResult = send(Client, "HEAP2 COMPLETE\n", 15, 0);
+				SendResult = send(Client, "\nHEAP2 COMPLETE\n", 16, 0);
 				/************************************************
 				  End Heap Overflow Exploit Function
 				************************************************/

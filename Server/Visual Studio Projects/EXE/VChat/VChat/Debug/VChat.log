@@ -10,11 +10,12 @@ D:\Fu-Work\VChat\vchat-dev\Server\Visual Studio Projects\EXE\VChat\VChat\vchat.c
 D:\Fu-Work\VChat\vchat-dev\Server\Visual Studio Projects\EXE\VChat\VChat\vchat.c(527,28): warning C4018: '<': signed/unsigned mismatch
 D:\Fu-Work\VChat\vchat-dev\Server\Visual Studio Projects\EXE\VChat\VChat\vchat.c(544,24): warning C4047: 'function': 'DWORD' differs in levels of indirection from 'void *'
 D:\Fu-Work\VChat\vchat-dev\Server\Visual Studio Projects\EXE\VChat\VChat\vchat.c(544,24): warning C4024: 'HeapFree': different types for formal and actual parameter 2
-D:\Fu-Work\VChat\vchat-dev\Server\Visual Studio Projects\EXE\VChat\VChat\vchat.c(548,29): warning C4133: 'function': incompatible types - from 'char [65]' to 'const OLECHAR *'
+D:\Fu-Work\VChat\vchat-dev\Server\Visual Studio Projects\EXE\VChat\VChat\vchat.c(548,29): warning C4133: 'function': incompatible types - from 'char [61]' to 'const OLECHAR *'
 D:\Fu-Work\VChat\vchat-dev\Server\Visual Studio Projects\EXE\VChat\VChat\vchat.c(551,24): warning C4047: 'function': 'DWORD' differs in levels of indirection from 'void *'
 D:\Fu-Work\VChat\vchat-dev\Server\Visual Studio Projects\EXE\VChat\VChat\vchat.c(551,24): warning C4024: 'HeapFree': different types for formal and actual parameter 2
 D:\Fu-Work\VChat\vchat-dev\Server\Visual Studio Projects\EXE\VChat\VChat\vchat.c(565,48): warning C4018: '<': signed/unsigned mismatch
-D:\Fu-Work\VChat\vchat-dev\Server\Visual Studio Projects\EXE\VChat\VChat\vchat.c(571,20): warning C4133: 'function': incompatible types - from 'BSTR' to 'const char *'
+D:\Fu-Work\VChat\vchat-dev\Server\Visual Studio Projects\EXE\VChat\VChat\vchat.c(574,9): warning C4477: 'printf' : format string '%s' requires an argument of type 'char *', but variadic argument 1 has type 'BSTR'
+D:\Fu-Work\VChat\vchat-dev\Server\Visual Studio Projects\EXE\VChat\VChat\vchat.c(575,20): warning C4133: 'function': incompatible types - from 'BSTR' to 'const char *'
 D:\Fu-Work\VChat\vchat-dev\Server\Visual Studio Projects\EXE\VChat\VChat\vchat.c(516,7): warning C4101: 'bstr': unreferenced local variable
-D:\Fu-Work\VChat\vchat-dev\Server\Visual Studio Projects\EXE\VChat\VChat\vchat.c(658,22): warning C4018: '<': signed/unsigned mismatch
+D:\Fu-Work\VChat\vchat-dev\Server\Visual Studio Projects\EXE\VChat\VChat\vchat.c(662,22): warning C4018: '<': signed/unsigned mismatch
   VChat.vcxproj -> D:\Fu-Work\VChat\vchat-dev\Server\Visual Studio Projects\EXE\VChat\Debug\VChat.exe

@@ -493,7 +493,6 @@ void Function6a(char* Input) {
 	for (;e_index < HELPER_STR_SIZE && s_index++ < strlen(Input) && Input[s_index] != '*'; e_index++) {
 		trgt_str[e_index] = Input[s_index];
 	}
-	
 	Function6b(Input, trgt_str, allocs, v_arr[1]);
 	return;
 }
@@ -586,6 +585,10 @@ void Function8a(char* Rcv, SOCKET Client) {
 	functionpointer* p_ptr[20];
 	functionpointer* tmp_pnt;
 
+
+	// Make the intentionally vulnerable heap...
+	HANDLE defaultHeap = GetProcessHeap();
+
 	// Send message asking user what they want us to do
 	send(Client, "Awaiting Command\nEND: Ends the current HEAP3 command\nSTR *STRING*: Store the values between \"*\" onto the heap\nSTR-RLS #: Remove the specified string from the heap\nFNC #: Allocate function array for # of pointers\n", 212, 0);
 
@@ -610,7 +613,7 @@ void Function8a(char* Rcv, SOCKET Client) {
 			strncpy(trgt_str, Rcv + 8, 2);
 			s_index = atoi(trgt_str);
 
-			free(s_ptr[s_index]);
+			HeapFree(defaultHeap, 0, s_ptr[s_index]);
 		}
 		// 2 = Store String; Maybe STR *STRING*, returns index
 		else if ((result = strncmp(Rcv, "STR ", 4)) == 0) {
@@ -636,8 +639,10 @@ void Function8a(char* Rcv, SOCKET Client) {
 				trgt_str[e_index] = Rcv[s_index];
 
 			// Put string on heap
-			s_ptr[s_cnt] = malloc(80);
+			s_ptr[s_cnt] = HeapAlloc(defaultHeap, 0, 80);
 			strcpy(s_ptr[s_cnt], trgt_str);
+
+			printf("ADDR %p\n", s_ptr[s_cnt]); // DEBUG
 
 			sprintf(trgt_str, "Thank you for saving your string it is located at %d\n", s_cnt);
 			send(Client, trgt_str, strlen(trgt_str), 0);
@@ -658,11 +663,12 @@ void Function8a(char* Rcv, SOCKET Client) {
 			s_index = atoi(trgt_str);
 
 
-			tmp_pnt = malloc(sizeof(functionpointer) * s_index);
+			tmp_pnt = HeapAlloc(defaultHeap, 0, sizeof(functionpointer) * s_index);
 			for (int i = 0; i < s_index; i++) {
 				tmp_pnt[i] = good_function;
 			}
 			p_ptr[p_cnt++] = tmp_pnt;
+			printf("ADDR FNC %p\n", tmp_pnt); // DEBUG
 			send(Client, "Success\n", 8, 0);
 		}
 	}

@@ -512,6 +512,9 @@ void Function6b(char* Input, char* str_trgt, void** allocs, functionpointer* trg
 
 // Leak Info
 void Function7(char* Input, SOCKET Client) {
+	// WIP 
+	send(Client, "WIP", 3);
+	return;
 	BSTR bstr;
 	int s_index, e_index;
 	int alloc_size = 120;

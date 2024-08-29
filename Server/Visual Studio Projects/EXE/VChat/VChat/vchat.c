@@ -512,9 +512,6 @@ void Function6b(char* Input, char* str_trgt, void** allocs, functionpointer* trg
 
 // Leak Info
 void Function7(char* Input, SOCKET Client) {
-	// WIP 
-	send(Client, "WIP", 3);
-	return;
 	BSTR bstr;
 	int s_index, e_index;
 	int alloc_size = 120;
@@ -593,7 +590,7 @@ void Function8a(char* Rcv, SOCKET Client) {
 	HANDLE defaultHeap = GetProcessHeap();
 
 	// Send message asking user what they want us to do
-	send(Client, "Awaiting Command\nEND: Ends the current HEAP3 command\nSTR *STRING*: Store the values between \"*\" onto the heap\nSTR-RLS #: Remove the specified string from the heap\nFNC #: Allocate function array for # of pointers\n", 212, 0);
+	send(Client, "Awaiting Command\nEND: Ends the current HEAPC command\nSTR *STRING*: Store the values between \"*\" onto the heap\nSTR-RLS #: Remove the specified string from the heap\nFNC #: Allocate function array for # of pointers\n", 212, 0);
 
 	while (1) {
 		// Get User Input
@@ -604,7 +601,7 @@ void Function8a(char* Rcv, SOCKET Client) {
 		printf("%s", Rcv);
 		// 0 = End
 		if (strncmp(Rcv, "END ", 3) == 0) {
-			send(Client, "Thank You For using HEAP3\n", 26, 0);
+			send(Client, "Thank You For using HEAPC\n", 26, 0);
 			break;
 		}
 		// 1 = Release String; Maybe STR-RLS #
@@ -860,7 +857,7 @@ DWORD WINAPI ConnectionHandler(LPVOID cli) {
 				  End CFG Exploit Function
 				************************************************/
 			}
-			else if (strncmp(RecvBuf, "HEAP3", 5) == 0) {
+			else if (strncmp(RecvBuf, "HEAC", 4) == 0) {
 				/************************************************
 				  Begin Heap Overflow Exploit Function
 				************************************************/
@@ -869,12 +866,12 @@ DWORD WINAPI ConnectionHandler(LPVOID cli) {
 				strncpy(FuncBuff, RecvBuf, 2048);
 				memset(RecvBuf, 0, DEFAULT_BUFLEN);
 				Function8a(FuncBuff, Client);
-				SendResult = send(Client, "HEAP3 COMPLETE\n", 15, 0);
+				SendResult = send(Client, "HEAPC COMPLETE\n", 15, 0);
 				/************************************************
 				  End Heap Overflow Exploit Function
 				************************************************/
 			}
-			else if (strncmp(RecvBuf, "HEAP2 ", 6) == 0) {
+			else if (strncmp(RecvBuf, "HEAL", 4) == 0) {
 				/************************************************
 				  Begin Heap Overflow Exploit Function
 				************************************************/
@@ -888,7 +885,7 @@ DWORD WINAPI ConnectionHandler(LPVOID cli) {
 				  End Heap Overflow Exploit Function
 				************************************************/
 			}
-			else if (strncmp(RecvBuf, "HEAP ", 5) == 0) {
+			else if (strncmp(RecvBuf, "HEAP", 4) == 0) {
 				/************************************************
 				  Begin Heap Overflow Exploit Function
 				************************************************/

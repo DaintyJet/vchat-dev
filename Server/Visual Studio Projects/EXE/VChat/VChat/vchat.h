@@ -23,7 +23,7 @@ default behavior and output.
 Define Constants used to control HEAP 
 overflow
 */
-#define HELPER_STR_SIZE 550
+#define HELPER_STR_SIZE 1200
 #define CHUNK_SIZE 0x190
 #define ALLOC_COUNT 10
 #define ALLOC_FREE 6

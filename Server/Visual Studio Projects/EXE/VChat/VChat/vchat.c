@@ -466,7 +466,7 @@ void Function6a(char* Input) {
 		return;
 
 	// Make the intentionally vulnerable heap...
-	HANDLE defaultHeap = GetProcessHeap();
+	HANDLE defaultHeap = HeapCreate(NULL, 0, 40000); //GetProcessHeap(); Windows seems to validate this... Using a new one as a workaround.
 
 	// Preform some number of allocations
 	for (int i = 0; i < ALLOC_COUNT; i++) {
@@ -481,7 +481,7 @@ void Function6a(char* Input) {
 
 	// Fill...
 	for (int i = 0; i < ALLOC_COUNT; i++) {
-		v_arr[i] = (functionpointer*)malloc(sizeof(functionpointer) * alloc_size);
+		v_arr[i] = (functionpointer*)HeapAlloc(defaultHeap, 0,sizeof(functionpointer) * alloc_size);
 		fill_array(v_arr[i], obj, alloc_size);
 	}
 

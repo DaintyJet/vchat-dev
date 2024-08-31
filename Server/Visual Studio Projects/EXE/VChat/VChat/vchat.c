@@ -465,8 +465,13 @@ void Function6a(char* Input) {
 	if (s_index == strlen(Input))
 		return;
 
+#ifdef HEAPVULN
 	// Make the intentionally vulnerable heap...
-	HANDLE defaultHeap = HeapCreate(NULL, 0, 40000); //GetProcessHeap(); Windows seems to validate this... Using a new one as a workaround.
+	HANDLE defaultHeap = HeapCreate(NULL, 0, 40000); // Windows seems to validate the default heap during LoadLibrary functions and others used in the shellcode... Using a new one as a workaround.
+#endif
+#ifndef HEAPVULN
+	HANDLE defaultHeap = GetProcessHeap(); // Windows seems to validate this... Using a new one as a workaround.
+#endif // !HEAPVULN
 
 	// Preform some number of allocations
 	for (int i = 0; i < ALLOC_COUNT; i++) {
@@ -529,8 +534,14 @@ void Function7(char* Input, SOCKET Client) {
 	if (s_index == strlen(Input))
 		return;
 
+
+#ifdef HEAPVULN
 	// Make the intentionally vulnerable heap...
-	HANDLE defaultHeap = GetProcessHeap();
+	HANDLE defaultHeap = HeapCreate(NULL, 0, 40000); // Windows seems to validate the default heap during LoadLibrary functions and others used in the shellcode... Using a new one as a workaround.
+#endif
+#ifndef HEAPVULN
+	HANDLE defaultHeap = GetProcessHeap(); // Windows seems to validate this... Using a new one as a workaround.
+#endif // !HEAPVULN
 
 	// Preform some number of allocations
 	for (int i = 0; i < ALLOC_COUNT; i++) {
@@ -552,7 +563,7 @@ void Function7(char* Input, SOCKET Client) {
 	// Allocation Adress we want to leak
 	for (int i = 0; i < ALLOC_COUNT; i++) {
 		// We are leaking anyways
-		tmp = malloc(sizeof(functionpointer));
+		tmp = HeapAlloc(defaultHeap, 0, sizeof(functionpointer));
 		*tmp = queue_add;
 	}
 
@@ -586,8 +597,13 @@ void Function8a(char* Rcv, SOCKET Client) {
 	functionpointer* tmp_pnt;
 
 
+#ifdef HEAPVULN
 	// Make the intentionally vulnerable heap...
-	HANDLE defaultHeap = GetProcessHeap();
+	HANDLE defaultHeap = HeapCreate(NULL, 0, 40000); // Windows seems to validate the default heap during LoadLibrary functions and others used in the shellcode... Using a new one as a workaround.
+#endif
+#ifndef HEAPVULN
+	HANDLE defaultHeap = GetProcessHeap(); // Windows seems to validate this... Using a new one as a workaround.
+#endif // !HEAPVULN
 
 	// Send message asking user what they want us to do
 	send(Client, "Awaiting Command\nEND: Ends the current HEAPC command\nSTR *STRING*: Store the values between \"*\" onto the heap\nSTR-RLS #: Remove the specified string from the heap\nFNC #: Allocate function array for # of pointers\n", 212, 0);

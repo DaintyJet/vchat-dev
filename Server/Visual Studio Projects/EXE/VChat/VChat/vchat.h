@@ -14,7 +14,7 @@
 Define Constants used to control
 default behavior and output.
 */
-#define VERSION "2.13"
+#define VERSION "2.20"
 #define DEFAULT_BUFLEN 4096
 #define DEFAULT_PORT "9999"
 #define MAX_CLIENTS 100
@@ -27,6 +27,7 @@ overflow
 #define CHUNK_SIZE 0x190
 #define ALLOC_COUNT 10
 #define ALLOC_FREE 6
+#define HEAPVULN
 
 /*
 Typedef for functionpointer

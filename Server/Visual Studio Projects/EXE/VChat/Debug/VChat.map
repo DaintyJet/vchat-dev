@@ -384,6 +384,10 @@
  0003:00000e54       ___scrt_ucrt_dll_is_in_use 0040be54     MSVCRT:ucrt_stubs.obj
  0003:00000f68       _cli_count                 0040bf68     vchat.obj
  0003:00000f6c       _MITM                      0040bf6c     vchat.obj
+ 0003:00001104       _hInput                    0040c104     <common>
+ 0003:00001108       ?_OptionsStorage@?1??__local_stdio_printf_options@@9@9 0040c108     <common>
+ 0003:00001110       _prev_mode                 0040c110     <common>
+ 0003:00001114       _ghMutex                   0040c114     <common>
  0003:00001164       ___scrt_current_native_startup_state 0040c164     MSVCRT:utility.obj
  0003:00001168       ___scrt_native_startup_lock 0040c168     MSVCRT:utility.obj
  0003:00001190       ?__type_info_root_node@@3U__type_info_node@@A 0040c190     MSVCRT:tncleanup.obj
@@ -394,10 +398,6 @@
  0003:000011c4       ___avx10_version           0040c1c4     MSVCRT:cpu_disp.obj
  0003:000011c8       ___isa_available           0040c1c8     MSVCRT:cpu_disp.obj
  0003:000011cc       ___favor                   0040c1cc     MSVCRT:cpu_disp.obj
- 0003:000015a0       ?_OptionsStorage@?1??__local_stdio_printf_options@@9@9 0040c5a0     <common>
- 0003:000015b4       _hInput                    0040c5b4     <common>
- 0003:000015b8       _prev_mode                 0040c5b8     <common>
- 0003:000015bc       _ghMutex                   0040c5bc     <common>
  0003:000015c0       ___dyn_tls_dtor_callback   0040c5c0     <common>
  0003:000015cc       ___dyn_tls_init_callback   0040c5cc     <common>
  0004:00000000       __imp__EssentialFunc1      0040d000     libessfunc:Essfun.dll
@@ -772,38 +772,38 @@
  0003:00000848       $SG68173                   0040b848     vchat.obj
  0003:00000858       $SG68176                   0040b858     vchat.obj
  0003:00000860       $SG68177                   0040b860     vchat.obj
- 0003:00000874       $SG68180                   0040b874     vchat.obj
- 0003:0000087c       $SG68181                   0040b87c     vchat.obj
- 0003:0000088c       $SG68184                   0040b88c     vchat.obj
- 0003:00000894       $SG68185                   0040b894     vchat.obj
- 0003:000008a4       $SG68190                   0040b8a4     vchat.obj
- 0003:000008ac       $SG68191                   0040b8ac     vchat.obj
- 0003:000008bc       $SG68194                   0040b8bc     vchat.obj
- 0003:000008c4       $SG68195                   0040b8c4     vchat.obj
- 0003:000008d8       $SG68198                   0040b8d8     vchat.obj
- 0003:000008e0       $SG68199                   0040b8e0     vchat.obj
- 0003:000008f0       $SG68202                   0040b8f0     vchat.obj
- 0003:000008f8       $SG68203                   0040b8f8     vchat.obj
- 0003:0000090c       $SG68206                   0040b90c     vchat.obj
- 0003:00000914       $SG68210                   0040b914     vchat.obj
- 0003:00000924       $SG68213                   0040b924     vchat.obj
- 0003:0000092c       $SG68214                   0040b92c     vchat.obj
- 0003:0000093c       $SG68217                   0040b93c     vchat.obj
- 0003:00000944       $SG68218                   0040b944     vchat.obj
- 0003:00000950       $SG68219                   0040b950     vchat.obj
- 0003:00000968       $SG68223                   0040b968     vchat.obj
- 0003:0000097c       $SG68225                   0040b97c     vchat.obj
- 0003:0000099c       $SG68228                   0040b99c     vchat.obj
- 0003:000009b4       $SG68230                   0040b9b4     vchat.obj
- 0003:000009d8       $SG68244                   0040b9d8     vchat.obj
- 0003:00000a48       $SG68247                   0040ba48     vchat.obj
- 0003:00000a50       $SG68252                   0040ba50     vchat.obj
- 0003:00000a58       $SG68253                   0040ba58     vchat.obj
- 0003:00000a60       $SG68254                   0040ba60     vchat.obj
- 0003:00000a68       $SG68255                   0040ba68     vchat.obj
- 0003:00000a90       $SG68256                   0040ba90     vchat.obj
- 0003:00000b34       $SG68258                   0040bb34     vchat.obj
- 0003:00000b54       $SG68260                   0040bb54     vchat.obj
+ 0003:00000870       $SG68180                   0040b870     vchat.obj
+ 0003:00000878       $SG68181                   0040b878     vchat.obj
+ 0003:00000888       $SG68184                   0040b888     vchat.obj
+ 0003:00000890       $SG68185                   0040b890     vchat.obj
+ 0003:000008a0       $SG68190                   0040b8a0     vchat.obj
+ 0003:000008a8       $SG68191                   0040b8a8     vchat.obj
+ 0003:000008b8       $SG68194                   0040b8b8     vchat.obj
+ 0003:000008c0       $SG68195                   0040b8c0     vchat.obj
+ 0003:000008d4       $SG68198                   0040b8d4     vchat.obj
+ 0003:000008dc       $SG68199                   0040b8dc     vchat.obj
+ 0003:000008ec       $SG68202                   0040b8ec     vchat.obj
+ 0003:000008f4       $SG68203                   0040b8f4     vchat.obj
+ 0003:00000908       $SG68206                   0040b908     vchat.obj
+ 0003:00000910       $SG68210                   0040b910     vchat.obj
+ 0003:00000920       $SG68213                   0040b920     vchat.obj
+ 0003:00000928       $SG68214                   0040b928     vchat.obj
+ 0003:00000938       $SG68217                   0040b938     vchat.obj
+ 0003:00000940       $SG68218                   0040b940     vchat.obj
+ 0003:0000094c       $SG68219                   0040b94c     vchat.obj
+ 0003:00000964       $SG68223                   0040b964     vchat.obj
+ 0003:00000978       $SG68225                   0040b978     vchat.obj
+ 0003:00000998       $SG68228                   0040b998     vchat.obj
+ 0003:000009b0       $SG68230                   0040b9b0     vchat.obj
+ 0003:000009d0       $SG68244                   0040b9d0     vchat.obj
+ 0003:00000a40       $SG68247                   0040ba40     vchat.obj
+ 0003:00000a48       $SG68252                   0040ba48     vchat.obj
+ 0003:00000a50       $SG68253                   0040ba50     vchat.obj
+ 0003:00000a58       $SG68254                   0040ba58     vchat.obj
+ 0003:00000a60       $SG68255                   0040ba60     vchat.obj
+ 0003:00000a88       $SG68256                   0040ba88     vchat.obj
+ 0003:00000b2c       $SG68258                   0040bb2c     vchat.obj
+ 0003:00000b4c       $SG68260                   0040bb4c     vchat.obj
  0003:00000f70       _clients                   0040bf70     vchat.obj
  0003:00001100       _end_flag                  0040c100     vchat.obj
  0003:00001156       ?init@?1??_RTC_InitBase@@9@4_NA 0040c156     MSVCRT:init.obj
@@ -831,8 +831,3 @@
  0004:00000e46       .idata$6                   0040de46     ucrt:api-ms-win-crt-math-l1-1-0.dll
  0004:00000e66       .idata$6                   0040de66     ucrt:api-ms-win-crt-locale-l1-1-0.dll
  0006:00000170       $R000000                   00410170     * linker generated manifest res *
-
- Exports
-
-  ordinal    name
-

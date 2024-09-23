@@ -1,0 +1,6 @@
+﻿     Creating library D:\Fu-Work\VChat\vchat-dev\Server\Visual Studio Projects\DLL\Essfun\Release\libessfunc.a and object D:\Fu-Work\VChat\vchat-dev\Server\Visual Studio Projects\DLL\Essfun\Release\libessfunc.exp
+  Generating code
+D:\Fu-Work\VChat\vchat-dev\Server\Visual Studio Projects\DLL\Essfun\Essfun\essfunc.c(53): warning C4731: 'EssentialFunc4': frame pointer register 'ebp' modified by inline assembly code
+D:\Fu-Work\VChat\vchat-dev\Server\Visual Studio Projects\DLL\Essfun\Essfun\essfunc.c(54): warning C4731: 'EssentialFunc4': frame pointer register 'ebp' modified by inline assembly code
+  Finished generating code
+  Essfun.vcxproj -> D:\Fu-Work\VChat\vchat-dev\Server\Visual Studio Projects\DLL\Essfun\Release\Essfun.dll

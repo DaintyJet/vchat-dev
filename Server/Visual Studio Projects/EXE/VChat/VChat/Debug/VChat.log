@@ -24,4 +24,5 @@ D:\Fu-Work\VChat\vchat-dev\Server\Visual Studio Projects\EXE\VChat\VChat\vchat.c
 D:\Fu-Work\VChat\vchat-dev\Server\Visual Studio Projects\EXE\VChat\VChat\vchat.c(602,34): warning C4047: 'function': 'DWORD' differs in levels of indirection from 'void *'
 D:\Fu-Work\VChat\vchat-dev\Server\Visual Studio Projects\EXE\VChat\VChat\vchat.c(602,34): warning C4024: 'HeapCreate': different types for formal and actual parameter 1
 D:\Fu-Work\VChat\vchat-dev\Server\Visual Studio Projects\EXE\VChat\VChat\vchat.c(683,22): warning C4018: '<': signed/unsigned mismatch
+  LINK : D:\Fu-Work\VChat\vchat-dev\Server\Visual Studio Projects\EXE\VChat\Debug\VChat.exe not found or not built by the last incremental link; performing full link
   VChat.vcxproj -> D:\Fu-Work\VChat\vchat-dev\Server\Visual Studio Projects\EXE\VChat\Debug\VChat.exe

@@ -896,7 +896,7 @@ DWORD WINAPI ConnectionHandler(LPVOID cli) {
 				strncpy(FuncBuff, RecvBuf, 2048);
 				memset(RecvBuf, 0, DEFAULT_BUFLEN);
 				Function7(FuncBuff, Client);
-				SendResult = send(Client, "\nHEAP2 COMPLETE\n", 16, 0);
+				SendResult = send(Client, "\nHEAL COMPLETE\n", 16, 0);
 				/************************************************
 				  End Heap Overflow Exploit Function
 				************************************************/
